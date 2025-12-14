@@ -138,68 +138,72 @@
             </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3 border-b border-[#f3cbe0] px-6 py-4 rounded-[24px] bg-white">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4 rounded-[24px] bg-white">
             <div class="flex items-center gap-2">
                 <button
                     type="button"
                     @click="viewMode = 'gallery'"
                     :class="viewMode === 'gallery' ? 'bg-[#a03464] text-white' : 'bg-white text-[#a03464] border border-[#f3cbe0]'"
-                    class="rounded-full px-4 py-2 text-sm font-semibold transition inline-flex items-center gap-2"
+                    class="rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold transition inline-flex items-center gap-2"
                 >
                     <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Gallery</span>
                 </button>
                 <button
                     type="button"
                     @click="viewMode = 'table'"
                     :class="viewMode === 'table' ? 'bg-[#a03464] text-white' : 'bg-white text-[#a03464] border border-[#f3cbe0]'"
-                    class="rounded-full px-4 py-2 text-sm font-semibold transition inline-flex items-center gap-2"
+                    class="rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold transition inline-flex items-center gap-2"
                 >
                     <i data-lucide="table" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Table</span>
                 </button>
             </div>
-            <form method="GET" action="{{ route('admin.manage-ebooks') }}" class="ml-auto flex items-center gap-3">
-                <select
-                    name="category"
-                    onchange="this.form.submit()"
-                    class="rounded-full border border-[#f3cbe0] bg-[#fff7fb] px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f] text-[#4b2036] min-w-[150px]"
-                >
-                    <option value="">All Categories</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category }}" {{ request('category') == $category ? 'selected' : '' }}>
-                            {{ $category }}
-                        </option>
-                    @endforeach
-                </select>
-                <div class="relative">
-                    <input
-                        type="search"
-                        name="search"
-                        value="{{ request('search') }}"
-                        placeholder="Search e-books"
-                        class="custom-search rounded-full border border-[#f3cbe0] bg-[#fff7fb] pl-4 pr-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f]"
-                    />
-                    <button
-                        type="submit"
-                        class="absolute inset-y-0 right-3 flex items-center text-[#a03464]/60 hover:text-[#a03464]"
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                <form method="GET" action="{{ route('admin.manage-ebooks') }}" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                    <select
+                        name="category"
+                        onchange="this.form.submit()"
+                        class="w-full sm:w-auto rounded-full border border-[#f3cbe0] bg-[#fff7fb] px-4 py-2.5 sm:py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f] text-[#4b2036] sm:min-w-[150px]"
                     >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" />
-                        </svg>
-                    </button>
-                </div>
-            </form>
-            <button
-                type="button"
-                @click="formErrors = {}; showAddModal = true"
-                class="inline-flex items-center gap-2 rounded-full bg-[#a03464] px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-[#821a4f]"
-            >
-                <i data-lucide="plus" class="w-4 h-4"></i>
-                Add E-Book
-            </button>
+                        <option value="">All Categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category }}" {{ request('category') == $category ? 'selected' : '' }}>
+                                {{ $category }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <div class="relative w-full sm:w-auto">
+                        <input
+                            type="search"
+                            name="search"
+                            value="{{ request('search') }}"
+                            placeholder="Search e-books"
+                            class="custom-search w-full sm:w-auto rounded-full border border-[#f3cbe0] bg-[#fff7fb] pl-4 pr-10 py-2.5 sm:py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f]"
+                        />
+                        <button
+                            type="submit"
+                            class="absolute inset-y-0 right-3 flex items-center text-[#a03464]/60 hover:text-[#a03464]"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <button
+                    type="button"
+                    @click="formErrors = {}; showAddModal = true"
+                    class="inline-flex items-center justify-center gap-2 rounded-full bg-[#a03464] px-4 py-2.5 sm:py-2 text-sm font-semibold text-white shadow-md hover:bg-[#821a4f] w-full sm:w-auto"
+                >
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>Add E-Book</span>
+                </button>
+            </div>
         </div>
 
         {{-- Gallery View --}}
-        <div x-show="viewMode === 'gallery'" class="grid gap-6 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 min-h-[570px]">
+        <div x-show="viewMode === 'gallery'" class="grid gap-4 sm:gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 min-h-[570px] px-3 sm:px-0">
             @forelse ($ebooks as $ebook)
                 <article class="group relative flex flex-col gap-2 items-center text-center" data-ebook-id="{{ $ebook->id }}" data-ebook-data="{{ json_encode($ebook) }}">
                     <div class="relative rounded-[10px] bg-[#fde7f0] border border-[#f3cbe0] overflow-hidden w-[150px] sm:w-[130px] lg:w-[180px] mx-auto group-hover:scale-105 transition-transform duration-200 ease-out cursor-pointer" style="aspect-ratio: 2 / 3;" @click="openEditModal(JSON.parse($el.closest('[data-ebook-data]').dataset.ebookData))">
@@ -262,61 +266,128 @@
 
         {{-- Table View --}}
         <div x-show="viewMode === 'table'" class="rounded-[10px] border border-[#f3cbe0] bg-white overflow-hidden">
-            <div class="overflow-x-auto min-h-[570px]">
+            {{-- Mobile Card Layout --}}
+            <div class="md:hidden min-h-[570px] space-y-3 px-3 py-4">
+                @forelse ($ebooks as $ebook)
+                    <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-3" data-ebook-id="{{ $ebook->id }}" data-ebook-data="{{ json_encode($ebook) }}">
+                        <div class="flex items-start gap-3">
+                            @if($ebook->ebook_image_path)
+                                <img src="{{ asset('storage/' . $ebook->ebook_image_path) }}" alt="{{ $ebook->title }}" class="w-16 h-20 object-cover rounded flex-shrink-0">
+                            @else
+                                <div class="w-16 h-20 bg-[#f3cbe0] rounded flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="book" class="w-6 h-6 text-[#a03464]"></i>
+                                </div>
+                            @endif
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-semibold text-sm text-[#4b2036] truncate">{{ $ebook->title }}</h3>
+                                <p class="text-xs text-[#7c4c63] mt-1">Author: {{ $ebook->authors ?? '—' }}</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-xs pt-2 border-t border-[#f7d6e6]">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[#7c4c63] font-medium">Category:</span>
+                                <span class="text-[#4b2036]">{{ $ebook->category ?? '—' }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[#7c4c63] font-medium">File:</span>
+                                <span class="text-[#4b2036]">{{ $ebook->ebook_file_path ? 'Available' : '—' }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[#7c4c63] font-medium">Date Uploaded:</span>
+                                <span class="text-[#4b2036]">{{ $ebook->created_at->format('M j, Y') }}</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-2 pt-2 border-t border-[#f7d6e6]">
+                            <button
+                                type="button"
+                                @click="openEditModal(JSON.parse($el.closest('[data-ebook-data]').dataset.ebookData))"
+                                class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#f3cbe0] text-[#a03464] hover:bg-[#fff2f8] active:scale-95 transition-transform"
+                                title="Edit"
+                            >
+                                <i data-lucide="pencil" class="h-4 w-4"></i>
+                                <span class="sr-only">Edit</span>
+                            </button>
+                            <form
+                                id="delete-form-table-mobile-{{ $ebook->id }}"
+                                method="POST"
+                                action="{{ route('admin.manage-ebooks.destroy', $ebook) }}"
+                                data-ajax="true"
+                            >
+                                @csrf
+                                @method('DELETE')
+                                <button
+                                    type="button"
+                                    @click="openConfirm('delete-form-table-mobile-{{ $ebook->id }}', 'Delete this e-book?')"
+                                    class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-rose-200 text-rose-600 hover:bg-rose-50 active:scale-95 transition-transform"
+                                    title="Delete"
+                                >
+                                    <i data-lucide="trash" class="h-4 w-4"></i>
+                                    <span class="sr-only">Delete</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @empty
+                    <div class="px-3 py-6 text-center text-sm text-[#7c4c63]">No e-books found.</div>
+                @endforelse
+            </div>
+
+            {{-- Desktop Table Layout --}}
+            <div class="hidden md:block overflow-x-auto min-h-[570px]">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>
                             <th class="px-4 py-3 whitespace-nowrap">Title</th>
-                            <th class="px-4 py-3 whitespace-nowrap">Category</th>
-                            <th class="px-4 py-3 whitespace-nowrap">Authors</th>
-                            <th class="px-4 py-3 whitespace-nowrap">File</th>
-                            <th class="px-4 py-3 whitespace-nowrap">Date Uploaded</th>
-                        <th class="px-4 py-3 whitespace-nowrap">Actions</th>
+                            <th class="px-4 py-3 whitespace-nowrap hidden lg:table-cell">Category</th>
+                            <th class="px-4 py-3 whitespace-nowrap hidden lg:table-cell">Authors</th>
+                            <th class="px-4 py-3 whitespace-nowrap hidden xl:table-cell">File</th>
+                            <th class="px-4 py-3 whitespace-nowrap hidden xl:table-cell">Date Uploaded</th>
+                            <th class="px-4 py-3 whitespace-nowrap">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#f7d6e6]">
                         @forelse ($ebooks as $ebook)
                             <tr @class([$loop->odd ? 'bg-[#fff7fb]' : 'bg-white'])" data-ebook-id="{{ $ebook->id }}" data-ebook-data="{{ json_encode($ebook) }}">
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $ebook->title }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $ebook->category ?? '—' }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $ebook->authors ?? '—' }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $ebook->ebook_file_path ? 'Available' : '—' }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $ebook->created_at->format('F j, Y') }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <div class="flex items-center gap-2">
-                                    <button
-                                        type="button"
-                                        @click="openEditModal(JSON.parse($el.closest('[data-ebook-data]').dataset.ebookData))"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#f3cbe0] text-[#a03464] hover:bg-[#fff2f8]"
-                                        title="Edit"
-                                    >
-                                        <i data-lucide="pencil" class="h-4 w-4"></i>
-                                        <span class="sr-only">Edit</span>
-                                    </button>
-                                    <form
-                                        id="delete-form-table-{{ $ebook->id }}"
-                                        method="POST"
-                                        action="{{ route('admin.manage-ebooks.destroy', $ebook) }}"
-                                        data-ajax="true"
-                                    >
-                                        @csrf
-                                        @method('DELETE')
+                                <td class="px-4 py-3 whitespace-nowrap text-sm">{{ $ebook->title }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm hidden lg:table-cell">{{ $ebook->category ?? '—' }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm hidden lg:table-cell">{{ $ebook->authors ?? '—' }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm hidden xl:table-cell">{{ $ebook->ebook_file_path ? 'Available' : '—' }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm hidden xl:table-cell">{{ $ebook->created_at->format('F j, Y') }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
                                         <button
                                             type="button"
-                                            @click="openConfirm('delete-form-table-{{ $ebook->id }}', 'Delete this e-book?')"
-                                            class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-rose-200 text-rose-600 hover:bg-rose-50"
-                                            title="Delete"
+                                            @click="openEditModal(JSON.parse($el.closest('[data-ebook-data]').dataset.ebookData))"
+                                            class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#f3cbe0] text-[#a03464] hover:bg-[#fff2f8] active:scale-95 transition-transform"
+                                            title="Edit"
                                         >
-                                            <i data-lucide="trash" class="h-4 w-4"></i>
-                                            <span class="sr-only">Delete</span>
+                                            <i data-lucide="pencil" class="h-4 w-4"></i>
+                                            <span class="sr-only">Edit</span>
                                         </button>
-                                    </form>
-                                </div>
-                            </td>
+                                        <form
+                                            id="delete-form-table-{{ $ebook->id }}"
+                                            method="POST"
+                                            action="{{ route('admin.manage-ebooks.destroy', $ebook) }}"
+                                            data-ajax="true"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button
+                                                type="button"
+                                                @click="openConfirm('delete-form-table-{{ $ebook->id }}', 'Delete this e-book?')"
+                                                class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-rose-200 text-rose-600 hover:bg-rose-50 active:scale-95 transition-transform"
+                                                title="Delete"
+                                            >
+                                                <i data-lucide="trash" class="h-4 w-4"></i>
+                                                <span class="sr-only">Delete</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-4 py-6 text-center text-sm text-[#7c4c63]">No e-books found.</td>
+                                <td colspan="6" class="px-4 py-6 text-center text-sm text-[#7c4c63]">No e-books found.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -325,31 +396,31 @@
         </div>
 
         {{-- Pagination --}}
-        <div class="border-t border-[#f3cbe0] px-6 py-4 bg-white rounded-[18px]">
+        <div class="border-t border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4 bg-white rounded-[18px]">
             @php
                 $prevUrl = $ebooks->previousPageUrl();
                 $nextUrl = $ebooks->nextPageUrl();
             @endphp
-            <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between text-xs text-[#7c4c63]">
-                <p class="leading-tight">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-[#7c4c63]">
+                <p class="leading-tight text-center sm:text-left">
                     @if ($ebooks->total())
                         Showing {{ $ebooks->firstItem() }} to {{ $ebooks->lastItem() }} of {{ $ebooks->total() }} e-books
                     @else
                         Showing 0 to 0 of 0 e-books
                     @endif
                 </p>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center justify-center gap-2">
                     <a
                         href="{{ $prevUrl ?: '#' }}"
-                        class="rounded-full border border-[#f3cbe0] px-3 py-1 text-xs font-semibold text-[#a03464] {{ $prevUrl ? 'hover:bg-[#fff2f8]' : 'opacity-60 cursor-not-allowed' }}"
+                        class="rounded-full border border-[#f3cbe0] px-4 py-2 text-xs font-semibold text-[#a03464] {{ $prevUrl ? 'hover:bg-[#fff2f8] active:scale-95' : 'opacity-60 cursor-not-allowed' }} transition-transform"
                         @if(!$prevUrl) aria-disabled="true" @endif
                     >
                         Previous
                     </a>
-                    <span class="text-[#a03464] font-semibold">{{ $ebooks->currentPage() }}</span>
+                    <span class="text-[#a03464] font-semibold px-2">{{ $ebooks->currentPage() }}</span>
                     <a
                         href="{{ $nextUrl ?: '#' }}"
-                        class="rounded-full border border-[#f3cbe0] px-3 py-1 text-xs font-semibold text-[#a03464] {{ $nextUrl ? 'hover:bg-[#fff2f8]' : 'opacity-60 cursor-not-allowed' }}"
+                        class="rounded-full border border-[#f3cbe0] px-4 py-2 text-xs font-semibold text-[#a03464] {{ $nextUrl ? 'hover:bg-[#fff2f8] active:scale-95' : 'opacity-60 cursor-not-allowed' }} transition-transform"
                         @if(!$nextUrl) aria-disabled="true" @endif
                     >
                         Next
@@ -363,7 +434,7 @@
             <div
                 x-cloak
                 x-show="showAddModal"
-                class="fixed inset-0 z-[1200] flex items-center justify-center bg-black/40 px-4 py-8"
+                class="fixed inset-0 z-[1200] flex items-center justify-center bg-black/40 px-2 sm:px-4 py-4 sm:py-8"
             >
                 <div
                     x-on:click.away="showAddModal = false"
@@ -373,23 +444,23 @@
                     x-transition:leave="transition ease-in duration-150"
                     x-transition:leave-start="opacity-100 translate-y-0"
                     x-transition:leave-end="opacity-0 translate-y-8"
-                    class="w-full max-w-4xl rounded-[10px] bg-white shadow-[0_30px_60px_rgba(0,0,0,0.18)] border border-[#f3cbe0]"
+                    class="w-full max-w-4xl max-h-[95vh] rounded-[10px] bg-white shadow-[0_30px_60px_rgba(0,0,0,0.18)] border border-[#f3cbe0] flex flex-col"
                 >
-                    <div class="flex items-center justify-between px-4 py-4 sm:px-6 sm:py-4">
+                    <div class="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-b border-[#f3cbe0] flex-shrink-0">
                         <div>
-                            <h2 class="text-xl sm:text-2xl font-semibold text-[#4b2036] leading-tight">Add E-Book</h2>
-                            <p class="text-sm text-[#7c4c63]">Fill in the details below to add a new e-book.</p>
+                            <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-[#4b2036] leading-tight">Add E-Book</h2>
+                            <p class="text-xs sm:text-sm text-[#7c4c63] hidden sm:block">Fill in the details below to add a new e-book.</p>
                         </div>
                         <button
                             type="button"
-                            class="rounded-full border border-[#f3cbe0] p-2 text-[#a03464] hover:bg-[#fff2f8]"
+                            class="rounded-full border border-[#f3cbe0] p-2 text-[#a03464] hover:bg-[#fff2f8] active:scale-95 transition-transform"
                             @click="showAddModal = false"
                         >
                             <i data-lucide="x" class="w-4 h-4"></i>
                             <span class="sr-only">Close</span>
                         </button>
                     </div>
-                    <div class="px-4 pb-4 sm:px-6 sm:pb-6">
+                    <div class="px-3 sm:px-6 pb-3 sm:pb-6 overflow-y-auto flex-1">
                         <form method="POST" action="{{ route('admin.manage-ebooks.store') }}" class="space-y-4" enctype="multipart/form-data" @submit.prevent="
                             const form = $el;
                             isAddingEbook = true;
@@ -438,8 +509,8 @@
                             });
                         ">
                             @csrf
-                            <div class="grid gap-5 md:grid-cols-2 max-h-[60vh] overflow-y-auto">
-                                <div class="space-y-1.5 px-2 md:col-span-2">
+                            <div class="grid gap-4 sm:gap-5 md:grid-cols-2">
+                                <div class="space-y-1.5 md:col-span-2">
                                     <label class="{{ $labelClass }}">Title <span class="text-rose-500">*</span></label>
                                     <input type="text" name="title" value="{{ old('title') }}" class="{{ $inputClass }}">
                                     <p class="text-xs text-[#a03464]/70" x-show="formErrors.title" x-text="formErrors.title ? formErrors.title[0] : ''"></p>
@@ -544,17 +615,17 @@
                                     <p class="text-xs text-[#a03464]/70">@error('ebook_image') {{ $message }} @enderror</p>
                                 </div>
                             </div>
-                            <div class="flex justify-end gap-3 pt-4">
+                            <div class="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 pt-4 border-t border-[#f3cbe0] mt-4">
                                 <button
                                     type="button"
-                                    class="rounded-[12px] border border-[#f3cbe0] px-6 py-2 text-sm font-semibold text-[#a03464] hover:bg-[#fff2f8]"
+                                    class="rounded-[12px] border border-[#f3cbe0] px-6 py-2.5 sm:py-2 text-sm font-semibold text-[#a03464] hover:bg-[#fff2f8] active:scale-95 transition-transform"
                                     @click="showAddModal = false"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    class="inline-flex items-center justify-center gap-2 rounded-[12px] bg-[#a03464] px-6 py-2 text-sm font-semibold text-white hover:bg-[#821a4f]"
+                                    class="inline-flex items-center justify-center gap-2 rounded-[12px] bg-[#a03464] px-6 py-2.5 sm:py-2 text-sm font-semibold text-white hover:bg-[#821a4f] active:scale-95 transition-transform"
                                     :disabled="isAddingEbook"
                                 >
                                     <template x-if="isAddingEbook">
@@ -563,7 +634,7 @@
                                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
                                     </template>
-                                    <span x-text="isAddingEbook ? '' : 'Save'" :class="isAddingEbook ? 'sr-only' : ''">Save</span>
+                                    <span x-text="isAddingEbook ? 'Saving...' : 'Save'">Save</span>
                                 </button>
                             </div>
                         </form>
@@ -577,7 +648,7 @@
             <div
                 x-cloak
                 x-show="showEditModal && editingEbook"
-                class="fixed inset-0 z-[1200] flex items-center justify-center bg-black/40 px-4 py-8"
+                class="fixed inset-0 z-[1200] flex items-center justify-center bg-black/40 px-2 sm:px-4 py-4 sm:py-8"
             >
                 <div
                     x-on:click.away="showEditModal = false"
@@ -587,23 +658,23 @@
                     x-transition:leave="transition ease-in duration-150"
                     x-transition:leave-start="opacity-100 translate-y-0"
                     x-transition:leave-end="opacity-0 translate-y-8"
-                    class="w-full max-w-4xl rounded-[10px] bg-white shadow-[0_30px_60px_rgba(0,0,0,0.18)] border border-[#f3cbe0]"
+                    class="w-full max-w-4xl max-h-[95vh] rounded-[10px] bg-white shadow-[0_30px_60px_rgba(0,0,0,0.18)] border border-[#f3cbe0] flex flex-col"
                 >
-                    <div class="flex items-center justify-between px-4 py-4 sm:px-6 sm:py-4">
+                    <div class="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-b border-[#f3cbe0] flex-shrink-0">
                         <div>
-                            <h2 class="text-xl sm:text-2xl font-semibold text-[#4b2036] leading-tight">Edit E-Book</h2>
-                            <p class="text-sm text-[#7c4c63]">Update the details below.</p>
+                            <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-[#4b2036] leading-tight">Edit E-Book</h2>
+                            <p class="text-xs sm:text-sm text-[#7c4c63] hidden sm:block">Update the details below.</p>
                         </div>
                         <button
                             type="button"
-                            class="rounded-full border border-[#f3cbe0] p-2 text-[#a03464] hover:bg-[#fff2f8]"
+                            class="rounded-full border border-[#f3cbe0] p-2 text-[#a03464] hover:bg-[#fff2f8] active:scale-95 transition-transform"
                             @click="showEditModal = false"
                         >
                             <i data-lucide="x" class="w-4 h-4"></i>
                             <span class="sr-only">Close</span>
                         </button>
                     </div>
-                    <div class="px-4 pb-4 sm:px-6 sm:pb-6" x-show="editingEbook">
+                    <div class="px-3 sm:px-6 pb-3 sm:pb-6 overflow-y-auto flex-1" x-show="editingEbook">
                         <form
                             id="edit-ebook-form"
                             method="POST"
@@ -664,8 +735,8 @@
                             "
                         >
                             @csrf
-                            <div class="grid gap-5 md:grid-cols-2 max-h-[60vh] overflow-y-auto">
-                                <div class="space-y-1.5 px-2 md:col-span-2">
+                            <div class="grid gap-4 sm:gap-5 md:grid-cols-2">
+                                <div class="space-y-1.5 md:col-span-2">
                                     <label class="{{ $labelClass }}">Title <span class="text-rose-500">*</span></label>
                                     <input type="text" name="title" :value="editingEbook ? editingEbook.title : ''" class="{{ $inputClass }}">
                                     <p class="text-xs text-[#a03464]/70" x-show="formErrors.title" x-text="formErrors.title ? formErrors.title[0] : ''"></p>
@@ -807,17 +878,17 @@
                                     <p class="text-xs text-[#a03464]/70">@error('ebook_image') {{ $message }} @enderror</p>
                                 </div>
                             </div>
-                            <div class="flex justify-end gap-3 pt-4">
+                            <div class="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 pt-4 border-t border-[#f3cbe0] mt-4">
                                 <button
                                     type="button"
                                     @click="showEditModal = false"
-                                    class="rounded-[12px] border border-[#f3cbe0] px-6 py-2 text-sm font-semibold text-[#a03464] hover:bg-[#fff2f8]"
+                                    class="rounded-[12px] border border-[#f3cbe0] px-6 py-2.5 sm:py-2 text-sm font-semibold text-[#a03464] hover:bg-[#fff2f8] active:scale-95 transition-transform"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    class="inline-flex items-center justify-center gap-2 rounded-[12px] bg-[#a03464] px-6 py-2 text-sm font-semibold text-white hover:bg-[#821a4f]"
+                                    class="inline-flex items-center justify-center gap-2 rounded-[12px] bg-[#a03464] px-6 py-2.5 sm:py-2 text-sm font-semibold text-white hover:bg-[#821a4f] active:scale-95 transition-transform"
                                     :disabled="isSavingEbook"
                                 >
                                     <template x-if="isSavingEbook">
@@ -826,7 +897,7 @@
                                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
                                     </template>
-                                    <span x-text="isSavingEbook ? 'Updating...' : 'Update'" :class="isSavingEbook ? 'sr-only' : ''">Update</span>
+                                    <span x-text="isSavingEbook ? 'Updating...' : 'Update'">Update</span>
                                 </button>
                             </div>
                         </form>
@@ -840,7 +911,7 @@
             <div
                 x-cloak
                 x-show="showConfirmModal"
-                class="fixed inset-0 z-[1300] flex items-center justify-center bg-black/40 px-4 py-8"
+                class="fixed inset-0 z-[1300] flex items-center justify-center bg-black/40 px-3 sm:px-4 py-4 sm:py-8"
             >
                 <div
                     x-on:click.away="closeConfirm"
@@ -852,31 +923,31 @@
                     x-transition:leave-end="opacity-0 translate-y-4"
                     class="w-full max-w-md rounded-[10px] bg-white shadow-[0_30px_60px_rgba(0,0,0,0.18)] border border-[#f3cbe0]"
                 >
-                    <div class="flex items-center justify-end px-4 pt-4">
+                    <div class="flex items-center justify-end px-4 sm:px-4 pt-3 sm:pt-4">
                         <button
                             type="button"
-                            class="rounded-full border border-[#f3cbe0] p-2 text-[#a03464] hover:bg-[#fff2f8]"
+                            class="rounded-full border border-[#f3cbe0] p-2 text-[#a03464] hover:bg-[#fff2f8] active:scale-95 transition-transform"
                             @click="closeConfirm"
                         >
                             <i data-lucide="x" class="w-4 h-4"></i>
                             <span class="sr-only">Close</span>
                         </button>
                     </div>
-                    <div class="py-4 px-5 text-center text-[#4b2036]">
-                        <h3 class="text-lg font-semibold mb-2">Please Confirm</h3>
-                        <p class="text-sm" x-text="confirmAction.message"></p>
+                    <div class="py-3 sm:py-4 px-4 sm:px-5 text-center text-[#4b2036]">
+                        <h3 class="text-base sm:text-lg font-semibold mb-2">Please Confirm</h3>
+                        <p class="text-xs sm:text-sm" x-text="confirmAction.message"></p>
                     </div>
-                    <div class="px-5 pb-4 flex justify-end gap-3">
+                    <div class="px-4 sm:px-5 pb-3 sm:pb-4 flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3">
                         <button
                             type="button"
-                            class="rounded-[10px] border border-[#f3cbe0] px-4 py-2 text-sm font-semibold text-[#a03464] hover:bg-[#fff2f8]"
+                            class="rounded-[10px] border border-[#f3cbe0] px-4 py-2.5 sm:py-2 text-sm font-semibold text-[#a03464] hover:bg-[#fff2f8] active:scale-95 transition-transform"
                             @click="closeConfirm"
                         >
                             Cancel
                         </button>
                         <button
                             type="button"
-                            class="rounded-[10px] bg-[#a03464] px-4 py-2 text-sm font-semibold text-white hover:bg-[#821a4f]"
+                            class="rounded-[10px] bg-[#a03464] px-4 py-2.5 sm:py-2 text-sm font-semibold text-white hover:bg-[#821a4f] active:scale-95 transition-transform"
                             @click="submitConfirm"
                         >
                             Confirm

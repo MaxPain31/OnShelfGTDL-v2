@@ -10,58 +10,59 @@
             id="top-controls"
             class="absolute top-0 left-0 right-0 z-50 bg-transparent transition-opacity duration-200"
         >
-            <div class="flex items-center justify-between px-6 py-4">
-                <div class="flex items-center gap-4">
+            <div class="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 gap-2 sm:gap-4">
+                <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
                     <a
                         href="{{ route('student.ebooks') }}"
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition text-sm font-medium text-[#4b2036] shadow-sm"
+                        class="inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition text-xs sm:text-sm font-medium text-[#4b2036] shadow-sm active:scale-95"
                     >
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                        <span>Back to Library</span>
+                        <i data-lucide="arrow-left" class="w-4 h-4 flex-shrink-0"></i>
+                        <span class="hidden sm:inline">Back to Library</span>
+                        <span class="sm:hidden">Back</span>
                     </a>
-                    <div class="hidden md:block px-4 py-2 rounded-lg bg-white/90 backdrop-blur-sm border border-[#f3cbe0]/50 shadow-sm">
-                        <h1 class="text-lg font-bold text-[#4b2036]">{{ html_entity_decode($ebook->title, ENT_QUOTES, 'UTF-8') }}</h1>
-                        <p class="text-sm text-[#7c4c63]">{{ html_entity_decode($ebook->authors ?? 'Unknown Author', ENT_QUOTES, 'UTF-8') }}</p>
+                    <div class="hidden md:block px-3 sm:px-4 py-2 rounded-lg bg-white/90 backdrop-blur-sm border border-[#f3cbe0]/50 shadow-sm flex-1 min-w-0">
+                        <h1 class="text-base sm:text-lg font-bold text-[#4b2036] truncate">{{ html_entity_decode($ebook->title, ENT_QUOTES, 'UTF-8') }}</h1>
+                        <p class="text-xs sm:text-sm text-[#7c4c63] truncate">{{ html_entity_decode($ebook->authors ?? 'Unknown Author', ENT_QUOTES, 'UTF-8') }}</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-shrink-0">
                     <button
                         id="fullscreen-btn"
-                        class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition text-[#4b2036] shadow-sm"
+                        class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition text-[#4b2036] shadow-sm active:scale-95"
                         title="Toggle Fullscreen"
                     >
-                        <i data-lucide="maximize" class="w-5 h-5"></i>
+                        <i data-lucide="maximize" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         {{-- Main Content Area --}}
-        <div class="flex items-center justify-center min-h-screen pt-16 pb-20 px-4">
+        <div class="flex items-center justify-center min-h-screen pt-14 sm:pt-16 pb-24 sm:pb-20 px-0 sm:px-4">
             @if($fileExtension === 'pdf')
-                <div class="max-w-6xl w-full">
-                    <div id="pdf-container" class="bg-transparent rounded-lg overflow-auto max-h-[calc(100vh-8rem)] p-4">
-                        <div class="flex items-center justify-center min-h-[400px]">
+                <div class="w-full sm:max-w-6xl">
+                    <div id="pdf-container" class="bg-transparent rounded-lg overflow-auto max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-8rem)] p-0 sm:p-4">
+                        <div class="flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
                             <div class="text-center">
-                                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#a03464] mb-4"></div>
-                                <p class="text-sm text-[#7c4c63]">Initializing PDF viewer...</p>
+                                <div class="inline-block animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-[#a03464] mb-4"></div>
+                                <p class="text-xs sm:text-sm text-[#7c4c63]">Initializing PDF viewer...</p>
                             </div>
                         </div>
                     </div>
                 </div>
             @else
                 {{-- For non-PDF files, show iframe or download link --}}
-                <div class="max-w-6xl w-full bg-white rounded-lg shadow-2xl p-8">
+                <div class="w-full sm:max-w-6xl bg-white rounded-lg shadow-2xl p-4 sm:p-8 mx-4 sm:mx-0">
                     <div class="text-center">
-                        <i data-lucide="file-text" class="w-16 h-16 text-[#a03464] mx-auto mb-4"></i>
-                        <h2 class="text-2xl font-bold text-[#4b2036] mb-2">{{ html_entity_decode($ebook->title, ENT_QUOTES, 'UTF-8') }}</h2>
-                        <p class="text-sm text-[#7c4c63] mb-6">This file format is not supported for inline viewing.</p>
+                        <i data-lucide="file-text" class="w-12 h-12 sm:w-16 sm:h-16 text-[#a03464] mx-auto mb-4"></i>
+                        <h2 class="text-lg sm:text-2xl font-bold text-[#4b2036] mb-2 px-2">{{ html_entity_decode($ebook->title, ENT_QUOTES, 'UTF-8') }}</h2>
+                        <p class="text-xs sm:text-sm text-[#7c4c63] mb-4 sm:mb-6">This file format is not supported for inline viewing.</p>
                         <a
                             href="{{ $ebookFileUrl }}"
                             download
-                            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-[#e07aac] to-[#a03464] text-white font-semibold hover:opacity-95 transition"
+                            class="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-gradient-to-r from-[#e07aac] to-[#a03464] text-white text-sm sm:text-base font-semibold hover:opacity-95 transition active:scale-95"
                         >
-                            <i data-lucide="download" class="w-5 h-5"></i>
+                            <i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                             <span>Download to Read</span>
                         </a>
                     </div>
@@ -75,62 +76,64 @@
             id="bottom-controls"
             class="absolute bottom-0 left-0 right-0 z-50 bg-transparent transition-opacity duration-200"
         >
-            <div class="px-6 py-4">
-                <div class="max-w-6xl mx-auto">
+            <div class="px-3 sm:px-6 py-3 sm:py-4">
+                <div class="w-full sm:max-w-6xl sm:mx-auto">
                     {{-- Page Navigation --}}
-                    <div class="flex items-center justify-between gap-4 mb-4">
-                        <div class="flex items-center gap-2">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 mb-3 sm:mb-4">
+                        <div class="flex items-center justify-center gap-2">
                             <button
                                 id="prev-page-btn"
-                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition disabled:opacity-50 disabled:cursor-not-allowed text-[#4b2036] shadow-sm"
+                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition disabled:opacity-50 disabled:cursor-not-allowed text-[#4b2036] shadow-sm active:scale-95"
                                 title="Previous Page"
                             >
-                                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                                <i data-lucide="chevron-left" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                             </button>
-                            <div class="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm border border-[#f3cbe0]/50 rounded-lg shadow-sm">
+                            <div class="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 bg-white/90 backdrop-blur-sm border border-[#f3cbe0]/50 rounded-lg shadow-sm">
                                 <input
                                     type="number"
                                     id="page-input"
                                     min="1"
-                                    class="w-16 px-2 py-1 bg-white/80 border border-[#f3cbe0]/50 rounded text-center text-sm text-[#4b2036] focus:outline-none focus:ring-2 focus:ring-[#a03464]/50"
+                                    class="w-12 sm:w-16 px-1.5 sm:px-2 py-1 bg-white/80 border border-[#f3cbe0]/50 rounded text-center text-xs sm:text-sm text-[#4b2036] focus:outline-none focus:ring-2 focus:ring-[#a03464]/50"
                                 />
-                                <span class="text-sm text-[#7c4c63]">/</span>
-                                <span class="text-sm font-medium text-[#4b2036]">Page <span id="current-page">1</span> of <span id="total-pages">1</span></span>
+                                <span class="text-xs sm:text-sm text-[#7c4c63]">/</span>
+                                <span class="text-xs sm:text-sm font-medium text-[#4b2036] whitespace-nowrap">
+                                    <span class="hidden sm:inline">Page </span><span id="current-page">1</span> <span class="hidden sm:inline">of</span> <span class="sm:hidden">/</span> <span id="total-pages">1</span>
+                                </span>
                             </div>
                             <button
                                 id="next-page-btn"
-                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition disabled:opacity-50 disabled:cursor-not-allowed text-[#4b2036] shadow-sm"
+                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition disabled:opacity-50 disabled:cursor-not-allowed text-[#4b2036] shadow-sm active:scale-95"
                                 title="Next Page"
                             >
-                                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                                <i data-lucide="chevron-right" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                             </button>
                         </div>
 
                         {{-- Zoom Controls --}}
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-center gap-1.5 sm:gap-2">
                             <button
                                 id="zoom-out-btn"
-                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition disabled:opacity-50 disabled:cursor-not-allowed text-[#4b2036] shadow-sm"
+                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition disabled:opacity-50 disabled:cursor-not-allowed text-[#4b2036] shadow-sm active:scale-95"
                                 title="Zoom Out"
                             >
-                                <i data-lucide="zoom-out" class="w-5 h-5"></i>
+                                <i data-lucide="zoom-out" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                             </button>
-                            <span class="px-3 py-2 bg-white/90 backdrop-blur-sm border border-[#f3cbe0]/50 rounded-lg text-sm font-medium min-w-[4rem] text-center text-[#4b2036] shadow-sm">
+                            <span class="px-2 sm:px-3 py-1.5 sm:py-2 bg-white/90 backdrop-blur-sm border border-[#f3cbe0]/50 rounded-lg text-xs sm:text-sm font-medium min-w-[3rem] sm:min-w-[4rem] text-center text-[#4b2036] shadow-sm">
                                 <span id="zoom-level">100</span>%
                             </span>
                             <button
                                 id="zoom-in-btn"
-                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition disabled:opacity-50 disabled:cursor-not-allowed text-[#4b2036] shadow-sm"
+                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition disabled:opacity-50 disabled:cursor-not-allowed text-[#4b2036] shadow-sm active:scale-95"
                                 title="Zoom In"
                             >
-                                <i data-lucide="zoom-in" class="w-5 h-5"></i>
+                                <i data-lucide="zoom-in" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                             </button>
                             <button
                                 id="reset-zoom-btn"
-                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition text-[#4b2036] shadow-sm"
+                                class="p-2 rounded-lg bg-white/90 backdrop-blur-sm hover:bg-white border border-[#f3cbe0]/50 transition text-[#4b2036] shadow-sm active:scale-95"
                                 title="Reset Zoom"
                             >
-                                <i data-lucide="maximize-2" class="w-5 h-5"></i>
+                                <i data-lucide="maximize-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                             </button>
                         </div>
                     </div>
@@ -151,7 +154,7 @@
         {{-- Keyboard Shortcuts Hint --}}
         <div
             id="shortcuts-hint"
-            class="absolute bottom-24 right-6 z-40 bg-white/95 backdrop-blur-sm border border-[#f3cbe0] rounded-lg p-3 text-xs text-[#7c4c63] shadow-lg transition-opacity duration-200"
+            class="hidden sm:block absolute bottom-24 right-6 z-40 bg-white/95 backdrop-blur-sm border border-[#f3cbe0] rounded-lg p-3 text-xs text-[#7c4c63] shadow-lg transition-opacity duration-200"
         >
             <p class="mb-1 font-semibold">Keyboard Shortcuts:</p>
             <p>← Previous Page</p>

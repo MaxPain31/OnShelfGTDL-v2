@@ -348,7 +348,7 @@
         class="space-y-8"
     >
         {{-- Overall Statistics --}}
-        <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5">
+        <section class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             <article class="rounded-[20px] border border-[#f3cbe0] bg-white shadow-sm p-5">
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
@@ -412,26 +412,24 @@
         </section>
 
         {{-- Year Comparison --}}
-        <section class="grid gap-6 md:grid-cols-2">
-            <article class="rounded-[24px] border border-[#f3cbe0] bg-white shadow-sm p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Year Comparison</p>
-                        <h2 class="text-xl font-semibold text-[#4b2036]">Borrows Growth</h2>
-                    </div>
+        <section class="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2">
+            <article class="rounded-[24px] border border-[#f3cbe0] bg-white shadow-sm p-4 sm:p-6">
+                <div class="mb-4">
+                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Year Comparison</p>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Borrows Growth</h2>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                        <p class="text-sm text-[#7c4c63]">This Year</p>
-                        <p class="text-2xl font-bold text-[#4b2036]">{{ $thisYearBorrows }}</p>
+                        <p class="text-xs sm:text-sm text-[#7c4c63]">This Year</p>
+                        <p class="text-xl sm:text-2xl font-bold text-[#4b2036]">{{ $thisYearBorrows }}</p>
                     </div>
                     <div>
-                        <p class="text-sm text-[#7c4c63]">Last Year</p>
-                        <p class="text-2xl font-bold text-[#4b2036]">{{ $lastYearBorrows }}</p>
+                        <p class="text-xs sm:text-sm text-[#7c4c63]">Last Year</p>
+                        <p class="text-xl sm:text-2xl font-bold text-[#4b2036]">{{ $lastYearBorrows }}</p>
                     </div>
                     <div class="col-span-2">
                         <div class="flex items-center gap-2">
-                            <span class="text-sm font-semibold {{ $borrowGrowth >= 0 ? 'text-green-600' : 'text-rose-600' }}">
+                            <span class="text-xs sm:text-sm font-semibold {{ $borrowGrowth >= 0 ? 'text-green-600' : 'text-rose-600' }}">
                                 {{ $borrowGrowth >= 0 ? '+' : '' }}{{ $borrowGrowth }}%
                             </span>
                             <i data-lucide="{{ $borrowGrowth >= 0 ? 'trending-up' : 'trending-down' }}" class="w-4 h-4 {{ $borrowGrowth >= 0 ? 'text-green-600' : 'text-rose-600' }}"></i>
@@ -439,25 +437,23 @@
                     </div>
                 </div>
             </article>
-            <article class="rounded-[24px] border border-[#f3cbe0] bg-white shadow-sm p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <div>
-                        <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Year Comparison</p>
-                        <h2 class="text-xl font-semibold text-[#4b2036]">Returns Growth</h2>
-                    </div>
+            <article class="rounded-[24px] border border-[#f3cbe0] bg-white shadow-sm p-4 sm:p-6">
+                <div class="mb-4">
+                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Year Comparison</p>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Returns Growth</h2>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                        <p class="text-sm text-[#7c4c63]">This Year</p>
-                        <p class="text-2xl font-bold text-[#4b2036]">{{ $thisYearReturns }}</p>
+                        <p class="text-xs sm:text-sm text-[#7c4c63]">This Year</p>
+                        <p class="text-xl sm:text-2xl font-bold text-[#4b2036]">{{ $thisYearReturns }}</p>
                     </div>
                     <div>
-                        <p class="text-sm text-[#7c4c63]">Last Year</p>
-                        <p class="text-2xl font-bold text-[#4b2036]">{{ $lastYearReturns }}</p>
+                        <p class="text-xs sm:text-sm text-[#7c4c63]">Last Year</p>
+                        <p class="text-xl sm:text-2xl font-bold text-[#4b2036]">{{ $lastYearReturns }}</p>
                     </div>
                     <div class="col-span-2">
                         <div class="flex items-center gap-2">
-                            <span class="text-sm font-semibold {{ $returnGrowth >= 0 ? 'text-green-600' : 'text-rose-600' }}">
+                            <span class="text-xs sm:text-sm font-semibold {{ $returnGrowth >= 0 ? 'text-green-600' : 'text-rose-600' }}">
                                 {{ $returnGrowth >= 0 ? '+' : '' }}{{ $returnGrowth }}%
                             </span>
                             <i data-lucide="{{ $returnGrowth >= 0 ? 'trending-up' : 'trending-down' }}" class="w-4 h-4 {{ $returnGrowth >= 0 ? 'text-green-600' : 'text-rose-600' }}"></i>
@@ -468,83 +464,110 @@
         </section>
 
         {{-- Charts Section --}}
-        <section class="grid gap-6 lg:grid-cols-2">
+        <section class="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
             {{-- Monthly Borrows and Returns --}}
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Trends</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Monthly Borrows & Returns</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Monthly Borrows & Returns</h2>
                 </div>
-                <div class="h-64">
+                <div class="h-48 sm:h-64">
                     <canvas id="monthlyBorrowsReturnsChart"></canvas>
                 </div>
             </div>
 
             {{-- Reservations Trend --}}
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Trends</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Monthly Reservations</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Monthly Reservations</h2>
                 </div>
-                <div class="h-64">
+                <div class="h-48 sm:h-64">
                     <canvas id="reservationsChart"></canvas>
                 </div>
             </div>
 
             {{-- Daily Activity --}}
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Activity</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Daily Borrows (Last 30 Days)</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Daily Borrows (Last 30 Days)</h2>
                 </div>
-                <div class="h-64">
+                <div class="h-48 sm:h-64">
                     <canvas id="dailyActivityChart"></canvas>
                 </div>
             </div>
 
             {{-- User Registrations --}}
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Users</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">New User Registrations</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">New User Registrations</h2>
                 </div>
-                <div class="h-64">
+                <div class="h-48 sm:h-64">
                     <canvas id="registrationsChart"></canvas>
                 </div>
             </div>
         </section>
 
         {{-- Status Distributions --}}
-        <section class="grid gap-6 lg:grid-cols-2">
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+        <section class="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Distribution</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Borrow Status</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Borrow Status</h2>
                 </div>
-                <div class="h-64">
+                <div class="h-48 sm:h-64">
                     <canvas id="borrowStatusChart"></canvas>
                 </div>
             </div>
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Distribution</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Reservation Status</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Reservation Status</h2>
                 </div>
-                <div class="h-64">
+                <div class="h-48 sm:h-64">
                     <canvas id="reservationStatusChart"></canvas>
                 </div>
             </div>
         </section>
 
         {{-- Student Leaderboard --}}
-        <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Leaderboard</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Top 10 Student Readers</h2>
-                </div>
+        <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+            <div class="mb-4 sm:mb-6">
+                <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Leaderboard</p>
+                <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Top 10 Student Readers</h2>
             </div>
-            <div class="overflow-x-auto">
+            {{-- Mobile Card Layout --}}
+            <div class="md:hidden space-y-3">
+                @forelse($topStudents as $index => $student)
+                    <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                @if($index < 3)
+                                    <span class="text-base font-bold {{ $index === 0 ? 'text-yellow-500' : ($index === 1 ? 'text-gray-400' : 'text-amber-600') }}">
+                                        {{ $index + 1 }}
+                                    </span>
+                                    <i data-lucide="award" class="w-4 h-4 {{ $index === 0 ? 'text-yellow-500' : ($index === 1 ? 'text-gray-400' : 'text-amber-600') }}"></i>
+                                @else
+                                    <span class="font-semibold text-sm">{{ $index + 1 }}</span>
+                                @endif
+                            </div>
+                            <span class="font-bold text-[#a03464] text-sm">{{ $student->borrows_count }} books</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm text-[#4b2036]">{{ html_entity_decode($student->userInfo->full_name ?? $student->email) }}</p>
+                            <p class="text-xs text-[#7c4c63] mt-0.5">LRN: {{ $student->userInfo->lrn ?? '—' }}</p>
+                        </div>
+                    </div>
+                @empty
+                    <div class="px-4 py-6 text-center text-sm text-[#7c4c63]">
+                        No student data available.
+                    </div>
+                @endforelse
+            </div>
+            {{-- Desktop Table Layout --}}
+            <div class="hidden md:block overflow-x-auto">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>
@@ -569,10 +592,10 @@
                                         @endif
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 font-semibold">
+                                <td class="px-4 py-3 font-semibold text-sm">
                                     {{ html_entity_decode($student->userInfo->full_name ?? $student->email) }}
                                 </td>
-                                <td class="px-4 py-3">{{ $student->userInfo->lrn ?? '—' }}</td>
+                                <td class="px-4 py-3 text-sm">{{ $student->userInfo->lrn ?? '—' }}</td>
                                 <td class="px-4 py-3">
                                     <span class="font-bold text-[#a03464]">{{ $student->borrows_count }}</span>
                                 </td>
@@ -590,28 +613,46 @@
         </section>
 
         {{-- Teacher Statistics --}}
-        <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Teacher Activity</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Top 10 Teacher Readers</h2>
+        <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+            <div class="mb-4 sm:mb-6">
+                <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Teacher Activity</p>
+                <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Top 10 Teacher Readers</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <div class="bg-[#fff7fb] rounded-[14px] p-3 sm:p-4 border border-[#f3cbe0]">
+                    <p class="text-xs sm:text-sm text-[#7c4c63]">Total Borrows</p>
+                    <p class="text-xl sm:text-2xl font-bold text-[#4b2036]">{{ $teacherBorrows }}</p>
+                </div>
+                <div class="bg-[#fff7fb] rounded-[14px] p-3 sm:p-4 border border-[#f3cbe0]">
+                    <p class="text-xs sm:text-sm text-[#7c4c63]">Books Returned</p>
+                    <p class="text-xl sm:text-2xl font-bold text-[#4b2036]">{{ $teacherReturns }}</p>
+                </div>
+                <div class="bg-[#fff7fb] rounded-[14px] p-3 sm:p-4 border border-[#f3cbe0]">
+                    <p class="text-xs sm:text-sm text-[#7c4c63]">Reservations</p>
+                    <p class="text-xl sm:text-2xl font-bold text-[#4b2036]">{{ $teacherReservations }}</p>
                 </div>
             </div>
-            <div class="grid md:grid-cols-3 gap-4 mb-6">
-                <div class="bg-[#fff7fb] rounded-[14px] p-4 border border-[#f3cbe0]">
-                    <p class="text-sm text-[#7c4c63]">Total Borrows</p>
-                    <p class="text-2xl font-bold text-[#4b2036]">{{ $teacherBorrows }}</p>
-                </div>
-                <div class="bg-[#fff7fb] rounded-[14px] p-4 border border-[#f3cbe0]">
-                    <p class="text-sm text-[#7c4c63]">Books Returned</p>
-                    <p class="text-2xl font-bold text-[#4b2036]">{{ $teacherReturns }}</p>
-                </div>
-                <div class="bg-[#fff7fb] rounded-[14px] p-4 border border-[#f3cbe0]">
-                    <p class="text-sm text-[#7c4c63]">Reservations</p>
-                    <p class="text-2xl font-bold text-[#4b2036]">{{ $teacherReservations }}</p>
-                </div>
+            {{-- Mobile Card Layout --}}
+            <div class="md:hidden space-y-3">
+                @forelse($topTeachers as $index => $teacher)
+                    <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold text-sm">#{{ $index + 1 }}</span>
+                            <span class="font-bold text-[#a03464] text-sm">{{ $teacher->borrows_count }} books</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-sm text-[#4b2036]">{{ html_entity_decode($teacher->userInfo->full_name ?? $teacher->email) }}</p>
+                            <p class="text-xs text-[#7c4c63] mt-0.5">Emp. #: {{ $teacher->userInfo->employee_number ?? '—' }}</p>
+                        </div>
+                    </div>
+                @empty
+                    <div class="px-4 py-6 text-center text-sm text-[#7c4c63]">
+                        No teacher data available.
+                    </div>
+                @endforelse
             </div>
-            <div class="overflow-x-auto">
+            {{-- Desktop Table Layout --}}
+            <div class="hidden md:block overflow-x-auto">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>
@@ -625,12 +666,12 @@
                         @forelse($topTeachers as $index => $teacher)
                             <tr @class([$loop->odd ? 'bg-[#fff7fb]' : 'bg-white'])>
                                 <td class="px-4 py-3">
-                                    <span class="font-semibold">{{ $index + 1 }}</span>
+                                    <span class="font-semibold text-sm">{{ $index + 1 }}</span>
                                 </td>
-                                <td class="px-4 py-3 font-semibold">
+                                <td class="px-4 py-3 font-semibold text-sm">
                                     {{ html_entity_decode($teacher->userInfo->full_name ?? $teacher->email) }}
                                 </td>
-                                <td class="px-4 py-3">{{ $teacher->userInfo->employee_number ?? '—' }}</td>
+                                <td class="px-4 py-3 text-sm">{{ $teacher->userInfo->employee_number ?? '—' }}</td>
                                 <td class="px-4 py-3">
                                     <span class="font-bold text-[#a03464]">{{ $teacher->borrows_count }}</span>
                                 </td>
@@ -648,84 +689,119 @@
         </section>
 
         {{-- Popular Books --}}
-        <section class="grid gap-6 lg:grid-cols-3">
+        <section class="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-3">
             {{-- Most Borrowed --}}
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Most Borrowed</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Borrowed</h2>
                 </div>
-                <div class="space-y-3 max-h-96 overflow-y-auto">
+                <div class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
                     @forelse($topBorrowedBooks as $index => $book)
-                        <div class="flex items-center gap-3 p-3 rounded-lg bg-[#fff7fb] border border-[#f3cbe0]">
-                            <div class="w-8 h-8 rounded-full bg-[#a03464]/20 flex items-center justify-center flex-shrink-0">
-                                <span class="text-sm font-bold text-[#a03464]">{{ $index + 1 }}</span>
+                        <div class="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-[#fff7fb] border border-[#f3cbe0]">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#a03464]/20 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xs sm:text-sm font-bold text-[#a03464]">{{ $index + 1 }}</span>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-sm text-[#4b2036] truncate">{{ html_entity_decode($book->book_name) }}</p>
+                                <p class="font-semibold text-xs sm:text-sm text-[#4b2036] truncate">{{ html_entity_decode($book->book_name) }}</p>
                                 <p class="text-xs text-[#7c4c63]">{{ $book->borrows_count }} borrows</p>
                             </div>
                         </div>
                     @empty
-                        <p class="text-sm text-[#7c4c63] text-center py-4">No data available.</p>
+                        <p class="text-xs sm:text-sm text-[#7c4c63] text-center py-4">No data available.</p>
                     @endforelse
                 </div>
             </div>
 
             {{-- Most Viewed --}}
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Most Viewed</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Viewed</h2>
                 </div>
-                <div class="space-y-3 max-h-96 overflow-y-auto">
+                <div class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
                     @forelse($topViewedBooks as $index => $book)
-                        <div class="flex items-center gap-3 p-3 rounded-lg bg-[#fff7fb] border border-[#f3cbe0]">
-                            <div class="w-8 h-8 rounded-full bg-[#3b82f6]/20 flex items-center justify-center flex-shrink-0">
-                                <span class="text-sm font-bold text-[#3b82f6]">{{ $index + 1 }}</span>
+                        <div class="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-[#fff7fb] border border-[#f3cbe0]">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#3b82f6]/20 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xs sm:text-sm font-bold text-[#3b82f6]">{{ $index + 1 }}</span>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-sm text-[#4b2036] truncate">{{ html_entity_decode($book->book_name) }}</p>
+                                <p class="font-semibold text-xs sm:text-sm text-[#4b2036] truncate">{{ html_entity_decode($book->book_name) }}</p>
                                 <p class="text-xs text-[#7c4c63]">{{ $book->view_count }} views</p>
                             </div>
                         </div>
                     @empty
-                        <p class="text-sm text-[#7c4c63] text-center py-4">No data available.</p>
+                        <p class="text-xs sm:text-sm text-[#7c4c63] text-center py-4">No data available.</p>
                     @endforelse
                 </div>
             </div>
 
             {{-- Most Favorited --}}
-            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-                <div class="mb-4">
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
-                    <h2 class="text-xl font-semibold text-[#4b2036]">Most Favorited</h2>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Favorited</h2>
                 </div>
-                <div class="space-y-3 max-h-96 overflow-y-auto">
+                <div class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
                     @forelse($topFavoritedBooks as $index => $book)
-                        <div class="flex items-center gap-3 p-3 rounded-lg bg-[#fff7fb] border border-[#f3cbe0]">
-                            <div class="w-8 h-8 rounded-full bg-[#f9c74f]/20 flex items-center justify-center flex-shrink-0">
-                                <span class="text-sm font-bold text-[#f9c74f]">{{ $index + 1 }}</span>
+                        <div class="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-[#fff7fb] border border-[#f3cbe0]">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#f9c74f]/20 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xs sm:text-sm font-bold text-[#f9c74f]">{{ $index + 1 }}</span>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-sm text-[#4b2036] truncate">{{ html_entity_decode($book->book_name) }}</p>
+                                <p class="font-semibold text-xs sm:text-sm text-[#4b2036] truncate">{{ html_entity_decode($book->book_name) }}</p>
                                 <p class="text-xs text-[#7c4c63]">{{ $book->favorite_count }} favorites</p>
                             </div>
                         </div>
                     @empty
-                        <p class="text-sm text-[#7c4c63] text-center py-4">No data available.</p>
+                        <p class="text-xs sm:text-sm text-[#7c4c63] text-center py-4">No data available.</p>
                     @endforelse
                 </div>
             </div>
         </section>
 
         {{-- Category Statistics --}}
-        <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-6 shadow-sm">
-            <div class="mb-6">
+        <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+            <div class="mb-4 sm:mb-6">
                 <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Library Analysis</p>
-                <h2 class="text-xl font-semibold text-[#4b2036]">Books by Category</h2>
+                <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Books by Category</h2>
             </div>
-            <div class="overflow-x-auto">
+            {{-- Mobile Card Layout --}}
+            <div class="md:hidden space-y-3">
+                @php
+                    $totalBooksInCategories = $categoryStats->sum('total');
+                @endphp
+                @forelse($categoryStats as $category)
+                    @php
+                        $percentage = $totalBooksInCategories > 0 ? round(($category->total / $totalBooksInCategories) * 100, 1) : 0;
+                    @endphp
+                    <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-semibold text-sm text-[#4b2036]">{{ $category->category ?? 'Uncategorized' }}</h3>
+                            <span class="text-sm font-semibold text-[#a03464]">{{ $percentage }}%</span>
+                        </div>
+                        <div class="space-y-1 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[#7c4c63]">Total Books:</span>
+                                <span class="font-semibold text-[#4b2036]">{{ $category->total }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[#7c4c63]">Total Stock:</span>
+                                <span class="font-semibold text-[#4b2036]">{{ $category->total_stock }}</span>
+                            </div>
+                        </div>
+                        <div class="bg-[#f3cbe0] rounded-full h-2">
+                            <div class="bg-[#a03464] h-2 rounded-full" style="width: {{ $percentage }}%"></div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="px-4 py-6 text-center text-sm text-[#7c4c63]">
+                        No category data available.
+                    </div>
+                @endforelse
+            </div>
+            {{-- Desktop Table Layout --}}
+            <div class="hidden md:block overflow-x-auto">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>
@@ -744,9 +820,9 @@
                                 $percentage = $totalBooksInCategories > 0 ? round(($category->total / $totalBooksInCategories) * 100, 1) : 0;
                             @endphp
                             <tr @class([$loop->odd ? 'bg-[#fff7fb]' : 'bg-white'])>
-                                <td class="px-4 py-3 font-semibold">{{ $category->category ?? 'Uncategorized' }}</td>
-                                <td class="px-4 py-3">{{ $category->total }}</td>
-                                <td class="px-4 py-3">{{ $category->total_stock }}</td>
+                                <td class="px-4 py-3 font-semibold text-sm">{{ $category->category ?? 'Uncategorized' }}</td>
+                                <td class="px-4 py-3 text-sm">{{ $category->total }}</td>
+                                <td class="px-4 py-3 text-sm">{{ $category->total_stock }}</td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center gap-2">
                                         <div class="flex-1 bg-[#f3cbe0] rounded-full h-2 max-w-[100px]">
