@@ -25,6 +25,7 @@
             ['label' => 'Manage E-Books', 'route' => 'admin.manage-ebooks', 'icon' => 'file-text'],
             ['label' => 'Borrowed books', 'route' => 'admin.manage-borrows', 'icon' => 'book-copy'],
             ['label' => 'Reserved Books', 'route' => 'admin.manage-reservations', 'icon' => 'bookmark'],
+            ['label' => 'Attendance', 'route' => 'admin.manage-attendance', 'icon' => 'clipboard-list'],
             ['label' => 'Reports', 'route' => 'admin.reports', 'icon' => 'bar-chart-2'],
             ['label' => 'Rules & Regulations', 'route' => 'admin.manage-rules', 'icon' => 'shield-check'],
         ];

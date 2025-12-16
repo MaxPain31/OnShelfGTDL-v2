@@ -15,8 +15,8 @@
                     <div class="border-b border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">
                         <h2 class="text-base sm:text-lg font-semibold text-[#4b2036]">Active Borrows</h2>
                     </div>
-                    {{-- Mobile Card Layout --}}
-                    <div class="md:hidden space-y-3 px-3 py-4">
+                    {{-- Mobile & Tablet Card Layout --}}
+                    <div class="lg:hidden space-y-3 px-3 py-4">
                         @foreach($activeBorrows as $borrow)
                             @php
                                 $isOverdue = $borrow->due_date < now()->startOfDay();
@@ -60,7 +60,7 @@
                         @endforeach
                     </div>
                     {{-- Desktop Table Layout --}}
-                    <div class="hidden md:block overflow-x-auto">
+                    <div class="hidden lg:block overflow-x-auto">
                         <table class="min-w-full text-left text-sm text-[#4b2036]">
                             <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                                 <tr>
@@ -128,8 +128,8 @@
                     <div class="border-b border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">
                         <h2 class="text-base sm:text-lg font-semibold text-[#4b2036]">Returned Books</h2>
                     </div>
-                    {{-- Mobile Card Layout --}}
-                    <div class="md:hidden space-y-3 px-3 py-4">
+                    {{-- Mobile & Tablet Card Layout --}}
+                    <div class="lg:hidden space-y-3 px-3 py-4">
                         @foreach($returnedBorrows as $borrow)
                             <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-3">
                                 <div class="flex items-start gap-3">
@@ -165,7 +165,7 @@
                         @endforeach
                     </div>
                     {{-- Desktop Table Layout --}}
-                    <div class="hidden md:block overflow-x-auto">
+                    <div class="hidden lg:block overflow-x-auto">
                         <table class="min-w-full text-left text-sm text-[#4b2036]">
                             <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                                 <tr>

@@ -348,7 +348,24 @@
         class="space-y-8"
     >
         {{-- Overall Statistics --}}
-        <section class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <section>
+            <div class="flex items-center justify-between mb-4 sm:mb-6">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Library Overview</p>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Overall Statistics</h2>
+                </div>
+                <div class="flex gap-2">
+                    <a href="{{ route('admin.reports.export', ['type' => 'overall-stats', 'format' => 'pdf']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-red-600 text-white text-xs sm:text-sm font-medium hover:bg-red-700 transition active:scale-95">
+                        <i data-lucide="file-text" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                        <span class="hidden sm:inline">PDF</span>
+                    </a>
+                    <a href="{{ route('admin.reports.export', ['type' => 'overall-stats', 'format' => 'excel']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-green-600 text-white text-xs sm:text-sm font-medium hover:bg-green-700 transition active:scale-95">
+                        <i data-lucide="file-spreadsheet" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                        <span class="hidden sm:inline">Excel</span>
+                    </a>
+                </div>
+            </div>
+            <div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             <article class="rounded-[20px] border border-[#f3cbe0] bg-white shadow-sm p-5">
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
@@ -409,10 +426,28 @@
                     </div>
                 </div>
             </article>
+            </div>
         </section>
 
         {{-- Year Comparison --}}
-        <section class="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2">
+        <section>
+            <div class="flex items-center justify-between mb-4 sm:mb-6">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Analytics</p>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Year Comparison</h2>
+                </div>
+                <div class="flex gap-2">
+                    <a href="{{ route('admin.reports.export', ['type' => 'year-comparison', 'format' => 'pdf']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-red-600 text-white text-xs sm:text-sm font-medium hover:bg-red-700 transition active:scale-95">
+                        <i data-lucide="file-text" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                        <span class="hidden sm:inline">PDF</span>
+                    </a>
+                    <a href="{{ route('admin.reports.export', ['type' => 'year-comparison', 'format' => 'excel']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-green-600 text-white text-xs sm:text-sm font-medium hover:bg-green-700 transition active:scale-95">
+                        <i data-lucide="file-spreadsheet" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                        <span class="hidden sm:inline">Excel</span>
+                    </a>
+                </div>
+            </div>
+            <div class="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2">
             <article class="rounded-[24px] border border-[#f3cbe0] bg-white shadow-sm p-4 sm:p-6">
                 <div class="mb-4">
                     <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Year Comparison</p>
@@ -461,6 +496,7 @@
                     </div>
                 </div>
             </article>
+            </div>
         </section>
 
         {{-- Charts Section --}}
@@ -468,8 +504,20 @@
             {{-- Monthly Borrows and Returns --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Trends</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Monthly Borrows & Returns</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Trends</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Monthly Borrows & Returns</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'monthly-borrows', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'monthly-borrows', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="h-48 sm:h-64">
                     <canvas id="monthlyBorrowsReturnsChart"></canvas>
@@ -479,8 +527,20 @@
             {{-- Reservations Trend --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Trends</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Monthly Reservations</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Trends</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Monthly Reservations</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'monthly-reservations', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'monthly-reservations', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="h-48 sm:h-64">
                     <canvas id="reservationsChart"></canvas>
@@ -490,8 +550,20 @@
             {{-- Daily Activity --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Activity</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Daily Borrows (Last 30 Days)</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Activity</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Daily Borrows (Last 30 Days)</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'daily-activity', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'daily-activity', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="h-48 sm:h-64">
                     <canvas id="dailyActivityChart"></canvas>
@@ -501,8 +573,20 @@
             {{-- User Registrations --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Users</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">New User Registrations</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Users</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">New User Registrations</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'user-registrations', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'user-registrations', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="h-48 sm:h-64">
                     <canvas id="registrationsChart"></canvas>
@@ -514,8 +598,20 @@
         <section class="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Distribution</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Borrow Status</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Distribution</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Borrow Status</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'borrow-status', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'borrow-status', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="h-48 sm:h-64">
                     <canvas id="borrowStatusChart"></canvas>
@@ -523,8 +619,20 @@
             </div>
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Distribution</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Reservation Status</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Distribution</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Reservation Status</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'reservation-status', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'reservation-status', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="h-48 sm:h-64">
                     <canvas id="reservationStatusChart"></canvas>
@@ -535,11 +643,25 @@
         {{-- Student Leaderboard --}}
         <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
             <div class="mb-4 sm:mb-6">
-                <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Leaderboard</p>
-                <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Top 10 Student Readers</h2>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Leaderboard</p>
+                        <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Top 10 Student Readers</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{{ route('admin.reports.export', ['type' => 'top-students', 'format' => 'pdf']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-red-600 text-white text-xs sm:text-sm font-medium hover:bg-red-700 transition active:scale-95">
+                            <i data-lucide="file-text" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                            <span class="hidden sm:inline">PDF</span>
+                        </a>
+                        <a href="{{ route('admin.reports.export', ['type' => 'top-students', 'format' => 'excel']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-green-600 text-white text-xs sm:text-sm font-medium hover:bg-green-700 transition active:scale-95">
+                            <i data-lucide="file-spreadsheet" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                            <span class="hidden sm:inline">Excel</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-            {{-- Mobile Card Layout --}}
-            <div class="md:hidden space-y-3">
+            {{-- Mobile & Tablet Card Layout --}}
+            <div class="lg:hidden space-y-3">
                 @forelse($topStudents as $index => $student)
                     <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-2">
                         <div class="flex items-center justify-between">
@@ -567,7 +689,7 @@
                 @endforelse
             </div>
             {{-- Desktop Table Layout --}}
-            <div class="hidden md:block overflow-x-auto">
+            <div class="hidden lg:block overflow-x-auto">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>
@@ -615,8 +737,22 @@
         {{-- Teacher Statistics --}}
         <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
             <div class="mb-4 sm:mb-6">
-                <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Teacher Activity</p>
-                <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Top 10 Teacher Readers</h2>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Teacher Activity</p>
+                        <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Top 10 Teacher Readers</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{{ route('admin.reports.export', ['type' => 'top-teachers', 'format' => 'pdf']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-red-600 text-white text-xs sm:text-sm font-medium hover:bg-red-700 transition active:scale-95">
+                            <i data-lucide="file-text" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                            <span class="hidden sm:inline">PDF</span>
+                        </a>
+                        <a href="{{ route('admin.reports.export', ['type' => 'top-teachers', 'format' => 'excel']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-green-600 text-white text-xs sm:text-sm font-medium hover:bg-green-700 transition active:scale-95">
+                            <i data-lucide="file-spreadsheet" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                            <span class="hidden sm:inline">Excel</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
                 <div class="bg-[#fff7fb] rounded-[14px] p-3 sm:p-4 border border-[#f3cbe0]">
@@ -632,8 +768,8 @@
                     <p class="text-xl sm:text-2xl font-bold text-[#4b2036]">{{ $teacherReservations }}</p>
                 </div>
             </div>
-            {{-- Mobile Card Layout --}}
-            <div class="md:hidden space-y-3">
+            {{-- Mobile & Tablet Card Layout --}}
+            <div class="lg:hidden space-y-3">
                 @forelse($topTeachers as $index => $teacher)
                     <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-2">
                         <div class="flex items-center justify-between">
@@ -652,7 +788,7 @@
                 @endforelse
             </div>
             {{-- Desktop Table Layout --}}
-            <div class="hidden md:block overflow-x-auto">
+            <div class="hidden lg:block overflow-x-auto">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>
@@ -693,8 +829,20 @@
             {{-- Most Borrowed --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Borrowed</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Borrowed</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'top-borrowed-books', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'top-borrowed-books', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
                     @forelse($topBorrowedBooks as $index => $book)
@@ -716,8 +864,20 @@
             {{-- Most Viewed --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Viewed</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Viewed</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'top-viewed-books', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'top-viewed-books', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
                     @forelse($topViewedBooks as $index => $book)
@@ -739,8 +899,20 @@
             {{-- Most Favorited --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
                 <div class="mb-3 sm:mb-4">
-                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
-                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Favorited</h2>
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Popular Books</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Most Favorited</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'top-favorited-books', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'top-favorited-books', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
                     @forelse($topFavoritedBooks as $index => $book)
@@ -763,11 +935,25 @@
         {{-- Category Statistics --}}
         <section class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
             <div class="mb-4 sm:mb-6">
-                <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Library Analysis</p>
-                <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Books by Category</h2>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Library Analysis</p>
+                        <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Books by Category</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{{ route('admin.reports.export', ['type' => 'category-stats', 'format' => 'pdf']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-red-600 text-white text-xs sm:text-sm font-medium hover:bg-red-700 transition active:scale-95">
+                            <i data-lucide="file-text" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                            <span class="hidden sm:inline">PDF</span>
+                        </a>
+                        <a href="{{ route('admin.reports.export', ['type' => 'category-stats', 'format' => 'excel']) }}" class="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-green-600 text-white text-xs sm:text-sm font-medium hover:bg-green-700 transition active:scale-95">
+                            <i data-lucide="file-spreadsheet" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                            <span class="hidden sm:inline">Excel</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-            {{-- Mobile Card Layout --}}
-            <div class="md:hidden space-y-3">
+            {{-- Mobile & Tablet Card Layout --}}
+            <div class="lg:hidden space-y-3">
                 @php
                     $totalBooksInCategories = $categoryStats->sum('total');
                 @endphp
@@ -801,7 +987,7 @@
                 @endforelse
             </div>
             {{-- Desktop Table Layout --}}
-            <div class="hidden md:block overflow-x-auto">
+            <div class="hidden lg:block overflow-x-auto">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>
@@ -843,9 +1029,226 @@
                 </table>
             </div>
         </section>
+
+        {{-- Attendance Statistics --}}
+        <section>
+            <div class="flex items-center justify-between mb-4 sm:mb-6">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Library Visitors</p>
+                    <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Attendance Statistics</h2>
+                </div>
+            </div>
+            <div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <article class="rounded-[20px] border border-[#f3cbe0] bg-white shadow-sm p-5">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm text-[#7c4c63]">Total Visitors</p>
+                            <p class="mt-3 text-3xl font-semibold text-[#4b2036]">{{ $totalAttendance ?? 0 }}</p>
+                            <p class="mt-2 text-xs font-medium text-[#a03464] uppercase tracking-wide">All Time</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center bg-[#8b5cf6]/20">
+                            <i data-lucide="users" class="w-6 h-6 text-[#8b5cf6]"></i>
+                        </div>
+                    </div>
+                </article>
+                <article class="rounded-[20px] border border-[#f3cbe0] bg-white shadow-sm p-5">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm text-[#7c4c63]">Today</p>
+                            <p class="mt-3 text-3xl font-semibold text-[#4b2036]">{{ $todayAttendance ?? 0 }}</p>
+                            <p class="mt-2 text-xs font-medium text-[#a03464] uppercase tracking-wide">Visitors</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center bg-[#10b981]/20">
+                            <i data-lucide="calendar" class="w-6 h-6 text-[#10b981]"></i>
+                        </div>
+                    </div>
+                </article>
+                <article class="rounded-[20px] border border-[#f3cbe0] bg-white shadow-sm p-5">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm text-[#7c4c63]">This Month</p>
+                            <p class="mt-3 text-3xl font-semibold text-[#4b2036]">{{ $thisMonthAttendance ?? 0 }}</p>
+                            <p class="mt-2 text-xs font-medium text-[#a03464] uppercase tracking-wide">Visitors</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center bg-[#3b82f6]/20">
+                            <i data-lucide="calendar-days" class="w-6 h-6 text-[#3b82f6]"></i>
+                        </div>
+                    </div>
+                </article>
+                <article class="rounded-[20px] border border-[#f3cbe0] bg-white shadow-sm p-5">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm text-[#7c4c63]">Last Month</p>
+                            <p class="mt-3 text-3xl font-semibold text-[#4b2036]">{{ $lastMonthAttendance ?? 0 }}</p>
+                            <p class="mt-2 text-xs font-medium text-[#a03464] uppercase tracking-wide">Visitors</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center bg-[#f9c74f]/20">
+                            <i data-lucide="calendar-check" class="w-6 h-6 text-[#f9c74f]"></i>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        {{-- Attendance Charts --}}
+        <section class="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
+            {{-- Monthly Attendance --}}
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Trends</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Monthly Attendance</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'monthly-attendance', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'monthly-attendance', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-48 sm:h-64">
+                    <canvas id="monthlyAttendanceChart"></canvas>
+                </div>
+            </div>
+
+            {{-- Daily Attendance --}}
+            <div class="rounded-[24px] border border-[#f3cbe0] bg-white p-4 sm:p-6 shadow-sm">
+                <div class="mb-3 sm:mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-[#a03464]/60">Activity</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-[#4b2036]">Daily Attendance (Last 30 Days)</h2>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="{{ route('admin.reports.export', ['type' => 'daily-attendance', 'format' => 'pdf']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition active:scale-95" title="Export PDF">
+                                <i data-lucide="file-text" class="w-3 h-3"></i>
+                            </a>
+                            <a href="{{ route('admin.reports.export', ['type' => 'daily-attendance', 'format' => 'excel']) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700 transition active:scale-95" title="Export Excel">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-48 sm:h-64">
+                    <canvas id="dailyAttendanceChart"></canvas>
+                </div>
+            </div>
+        </section>
     </div>
 
     {{-- Chart.js Library --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Monthly Attendance Chart
+        const monthlyAttendanceCtx = document.getElementById('monthlyAttendanceChart');
+        if (monthlyAttendanceCtx) {
+            new Chart(monthlyAttendanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: @js($monthlyAttendanceLabels ?? []),
+                    datasets: [{
+                        label: 'Visitors',
+                        data: @js($monthlyAttendanceData ?? []),
+                        backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                        borderColor: '#8b5cf6',
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(75, 32, 54, 0.9)',
+                            padding: 12,
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                color: '#7c4c63',
+                                font: { size: 11 }
+                            },
+                            grid: { color: 'rgba(243, 203, 224, 0.3)' }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#7c4c63',
+                                font: { size: 11 }
+                            },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Daily Attendance Chart
+        const dailyAttendanceCtx = document.getElementById('dailyAttendanceChart');
+        if (dailyAttendanceCtx) {
+            new Chart(dailyAttendanceCtx, {
+                type: 'line',
+                data: {
+                    labels: @js($dailyAttendanceLabels ?? []),
+                    datasets: [{
+                        label: 'Daily Visitors',
+                        data: @js($dailyAttendanceData ?? []),
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 2,
+                        pointHoverRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(75, 32, 54, 0.9)',
+                            padding: 12,
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                color: '#7c4c63',
+                                font: { size: 10 }
+                            },
+                            grid: { color: 'rgba(243, 203, 224, 0.3)' }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#7c4c63',
+                                font: { size: 10 },
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 @endsection
 

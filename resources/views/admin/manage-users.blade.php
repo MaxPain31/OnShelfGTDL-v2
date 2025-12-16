@@ -221,17 +221,35 @@
 
             {{-- Teacher table --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 border-b border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">
                     <h2 class="text-base sm:text-lg font-semibold text-[#4b2036]">Teacher Accounts</h2>
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
-                        <form method="GET" action="{{ route('admin.manage-teachers') }}" class="relative w-full sm:w-auto">
+                    <div class="flex flex-col md:flex-row items-stretch md:items-center gap-2 w-full md:w-auto">
+                        <div class="flex gap-2">
+                            <a
+                                href="{{ route('admin.manage-teachers.export', ['format' => 'pdf', 'search' => request('search')]) }}"
+                                class="inline-flex items-center gap-2 rounded-[14px] bg-red-600 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white hover:bg-red-700 transition active:scale-95 justify-center"
+                                title="Export to PDF"
+                            >
+                                <i data-lucide="file-text" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                                <span class="hidden sm:inline">PDF</span>
+                            </a>
+                            <a
+                                href="{{ route('admin.manage-teachers.export', ['format' => 'excel', 'search' => request('search')]) }}"
+                                class="inline-flex items-center gap-2 rounded-[14px] bg-green-600 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white hover:bg-green-700 transition active:scale-95 justify-center"
+                                title="Export to Excel"
+                            >
+                                <i data-lucide="file-spreadsheet" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                                <span class="hidden sm:inline">Excel</span>
+                            </a>
+                        </div>
+                        <form method="GET" action="{{ route('admin.manage-teachers') }}" class="relative w-full md:w-auto">
                             <input
                                 type="search"
                                 name="search"
                                 value="{{ request('search') }}"
                                 x-model="searchQuery"
                                 placeholder="Search"
-                                class="custom-search w-full sm:w-auto rounded-full border border-[#f3cbe0] bg-[#fff7fb] pr-12 pl-4 py-2.5 sm:py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f]"
+                                class="custom-search w-full md:w-auto rounded-full border border-[#f3cbe0] bg-[#fff7fb] pr-12 pl-4 py-2.5 sm:py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f]"
                             />
                             <div class="absolute inset-y-0 right-2 flex items-center">
                                 <button
@@ -268,8 +286,8 @@
                     </div>
                 </div>
 
-                {{-- Mobile Card Layout --}}
-                <div class="md:hidden min-h-[570px] space-y-3 px-3 py-4" id="teacher-mobile-cards" x-ref="teacherMobileCards">
+                {{-- Mobile & Tablet Card Layout --}}
+                <div class="lg:hidden min-h-[570px] space-y-3 px-3 py-4" id="teacher-mobile-cards" x-ref="teacherMobileCards">
                     @forelse (($teachers ?? collect()) as $teacher)
                         @php
                             $info = $teacher->userInfo;
@@ -354,7 +372,7 @@
                 </div>
 
                 {{-- Desktop Table Layout --}}
-                <div class="hidden md:block overflow-x-auto min-h-[570px]">
+                <div class="hidden lg:block overflow-x-auto min-h-[570px]">
                     <table class="min-w-full text-left text-sm text-[#4b2036]">
                         <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                             <tr>
@@ -832,127 +850,144 @@
         @else
             {{-- Students view (admin read-only, no add) --}}
             <div class="rounded-[24px] border border-[#f3cbe0] bg-white">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">
-                    <h2 class="text-base sm:text-lg font-semibold text-[#4b2036]">Student Accounts</h2>
-                    <form method="GET" action="{{ route('admin.manage-students') }}" class="relative w-full sm:w-auto" x-data="{ searchQuery: '{{ request('search', '') }}' }">
-                        <input
-                            type="search"
-                            name="search"
-                            x-model="searchQuery"
-                            placeholder="Search"
-                            class="custom-search w-full sm:w-auto rounded-full border border-[#f3cbe0] bg-[#fff7fb] pl-4 pr-10 py-2.5 sm:py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f]"
-                        />
-                        <button
-                            type="submit"
-                            x-show="!searchQuery"
-                            class="absolute inset-y-0 right-3 flex items-center text-[#a03464]/60 hover:text-[#a03464]"
-                        >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" />
-                            </svg>
-                        </button>
-                        <button
-                            type="button"
-                            x-show="searchQuery"
-                            @click="searchQuery = ''; $el.closest('form').submit();"
-                            class="absolute inset-y-0 right-3 flex items-center text-[#a03464]/60 hover:text-[#a03464]"
-                        >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-
-                {{-- Mobile Card Layout --}}
-                <div class="md:hidden min-h-[570px] space-y-3 px-3 py-4">
-                    @forelse (($students ?? collect()) as $student)
-                        @php
-                            $info = $student->userInfo;
-                        @endphp
-                        <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-3">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="font-semibold text-sm text-[#4b2036] truncate">{{ $info->full_name ?? 'Unknown' }}</h3>
-                                    <p class="text-xs text-[#7c4c63] mt-0.5 truncate">{{ $student->email }}</p>
-                                </div>
-                                <span class="{{ $student->deactivated ? 'bg-rose-50 text-rose-700' : 'bg-green-50 text-green-700' }} px-2.5 py-1 text-xs font-semibold rounded-full whitespace-nowrap ml-2">
-                                    {{ $student->deactivated ? 'Inactive' : 'Active' }}
-                                </span>
-                            </div>
-                            <div class="space-y-2 text-xs">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[#7c4c63] font-medium">LRN:</span>
-                                    <span class="text-[#4b2036] font-semibold">{{ $info->lrn ?? '—' }}</span>
-                                </div>
-                                @if($info->mobile)
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[#7c4c63] font-medium">Mobile:</span>
-                                    <span class="text-[#4b2036]">{{ $info->mobile }}</span>
-                                </div>
-                                @endif
-                                @if($student->last_login_at)
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[#7c4c63] font-medium">Last Login:</span>
-                                    <span class="text-[#4b2036]">{{ $student->last_login_at->format('M d, Y h:i A') }}</span>
-                                </div>
-                                @endif
-                                @if($student->created_at)
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[#7c4c63] font-medium">Created:</span>
-                                    <span class="text-[#4b2036]">{{ $student->created_at->format('M d, Y h:i A') }}</span>
-                                </div>
-                                @endif
-                            </div>
+                <div class="px-3 sm:px-6 py-3 sm:py-4">
+                    <h2 class="text-base sm:text-lg font-semibold text-[#4b2036] mb-4">Student Accounts</h2>
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-3 mb-4">
+                        <form method="GET" action="{{ route('admin.manage-students') }}" class="relative flex-1 md:flex-initial md:w-auto md:min-w-[250px]" x-data="{ searchQuery: '{{ request('search', '') }}' }">
+                            <input
+                                type="search"
+                                name="search"
+                                x-model="searchQuery"
+                                placeholder="Search"
+                                class="custom-search w-full rounded-full border border-[#f3cbe0] bg-[#fff7fb] pl-4 pr-10 py-2.5 sm:py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f]"
+                            />
+                            <button
+                                type="submit"
+                                x-show="!searchQuery"
+                                class="absolute inset-y-0 right-3 flex items-center text-[#a03464]/60 hover:text-[#a03464]"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" />
+                                </svg>
+                            </button>
+                            <button
+                                type="button"
+                                x-show="searchQuery"
+                                @click="searchQuery = ''; $el.closest('form').submit();"
+                                class="absolute inset-y-0 right-3 flex items-center text-[#a03464]/60 hover:text-[#a03464]"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </form>
+                        <div class="flex gap-2">
+                            <a
+                                href="{{ route('admin.manage-students.export', ['format' => 'pdf', 'search' => request('search')]) }}"
+                                class="inline-flex items-center gap-2 rounded-[14px] bg-red-600 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white hover:bg-red-700 transition active:scale-95 justify-center"
+                                title="Export to PDF"
+                            >
+                                <i data-lucide="file-text" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                                <span>PDF</span>
+                            </a>
+                            <a
+                                href="{{ route('admin.manage-students.export', ['format' => 'excel', 'search' => request('search')]) }}"
+                                class="inline-flex items-center gap-2 rounded-[14px] bg-green-600 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white hover:bg-green-700 transition active:scale-95 justify-center"
+                                title="Export to Excel"
+                            >
+                                <i data-lucide="file-spreadsheet" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                                <span>Excel</span>
+                            </a>
                         </div>
-                    @empty
-                        <div class="px-3 py-6 text-center text-sm text-[#7c4c63]">
-                            No student accounts found.
-                        </div>
-                    @endforelse
+                    </div>
                 </div>
+                <div class="border-t border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">
+                    {{-- Mobile & Tablet Card Layout --}}
+                    <div class="lg:hidden min-h-[570px] space-y-3">
+                        @forelse (($students ?? collect()) as $student)
+                            @php
+                                $info = $student->userInfo;
+                            @endphp
+                            <div class="rounded-xl border border-[#f3cbe0] bg-white p-4 space-y-3">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="font-semibold text-sm text-[#4b2036] truncate">{{ $info->full_name ?? 'Unknown' }}</h3>
+                                        <p class="text-xs text-[#7c4c63] mt-0.5 truncate">{{ $student->email }}</p>
+                                    </div>
+                                    <span class="{{ $student->deactivated ? 'bg-rose-50 text-rose-700' : 'bg-green-50 text-green-700' }} px-2.5 py-1 text-xs font-semibold rounded-full whitespace-nowrap ml-2">
+                                        {{ $student->deactivated ? 'Inactive' : 'Active' }}
+                                    </span>
+                                </div>
+                                <div class="space-y-2 text-xs">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[#7c4c63] font-medium">LRN:</span>
+                                        <span class="text-[#4b2036] font-semibold">{{ $info->lrn ?? '—' }}</span>
+                                    </div>
+                                    @if($info->mobile)
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[#7c4c63] font-medium">Mobile:</span>
+                                        <span class="text-[#4b2036]">{{ $info->mobile }}</span>
+                                    </div>
+                                    @endif
+                                    @if($student->last_login_at)
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[#7c4c63] font-medium">Last Login:</span>
+                                        <span class="text-[#4b2036]">{{ $student->last_login_at->format('M d, Y h:i A') }}</span>
+                                    </div>
+                                    @endif
+                                    @if($student->created_at)
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[#7c4c63] font-medium">Created:</span>
+                                        <span class="text-[#4b2036]">{{ $student->created_at->format('M d, Y h:i A') }}</span>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div class="px-3 py-6 text-center text-sm text-[#7c4c63]">
+                                No student accounts found.
+                            </div>
+                        @endforelse
+                    </div>
 
-                {{-- Desktop Table Layout --}}
-                <div class="hidden md:block overflow-x-auto min-h-[570px]">
-                    <table class="min-w-full text-left text-sm text-[#4b2036]">
-                        <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
-                            <tr>
-                                <th class="px-6 py-3 whitespace-nowrap">LRN</th>
-                                <th class="px-6 py-3 whitespace-nowrap">Full Name</th>
-                                <th class="px-6 py-3 whitespace-nowrap">Email</th>
-                                <th class="px-6 py-3 whitespace-nowrap hidden lg:table-cell">Mobile</th>
-                                <th class="px-6 py-3 whitespace-nowrap">Status</th>
-                                <th class="px-6 py-3 whitespace-nowrap hidden xl:table-cell">Last Login</th>
-                                <th class="px-6 py-3 whitespace-nowrap hidden xl:table-cell">Created At</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#f7d6e6]">
-                            @forelse (($students ?? collect()) as $student)
-                                @php
-                                    $info = $student->userInfo;
-                                @endphp
-                                <tr @class([$loop->odd ? 'bg-[#fff7fb]' : 'bg-white'])>
-                                    <td class="px-6 py-3 font-semibold whitespace-nowrap text-sm">{{ $info->lrn ?? '—' }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm">{{ $info->full_name ?? 'Unknown' }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm">{{ $student->email }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm hidden lg:table-cell">{{ $info->mobile ?? '—' }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap">
-                                        <span class="{{ $student->deactivated ? 'bg-rose-50 text-rose-700' : 'bg-green-50 text-green-700' }} px-2 py-1 text-xs font-semibold rounded-full">
-                                            {{ $student->deactivated ? 'Inactive' : 'Active' }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm hidden xl:table-cell">{{ $student->last_login_at ? $student->last_login_at->format('M d, Y h:i A') : '—' }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm hidden xl:table-cell">{{ $student->created_at ? $student->created_at->format('M d, Y h:i A') : '—' }}</td>
-                                </tr>
-                            @empty
+                    {{-- Desktop Table Layout --}}
+                    <div class="hidden lg:block overflow-x-auto min-h-[570px]">
+                        <table class="min-w-full text-left text-sm text-[#4b2036]">
+                            <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                                 <tr>
-                                    <td colspan="7" class="px-6 py-6 text-center text-sm text-[#7c4c63]">
-                                        No student accounts found.
-                                    </td>
+                                    <th class="px-6 py-3 whitespace-nowrap">LRN</th>
+                                    <th class="px-6 py-3 whitespace-nowrap">Full Name</th>
+                                    <th class="px-6 py-3 whitespace-nowrap">Email</th>
+                                    <th class="px-6 py-3 whitespace-nowrap">Mobile</th>
+                                    <th class="px-6 py-3 whitespace-nowrap">Status</th>
                                 </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="divide-y divide-[#f7d6e6]">
+                                @forelse (($students ?? collect()) as $student)
+                                    @php
+                                        $info = $student->userInfo;
+                                    @endphp
+                                    <tr @class([$loop->odd ? 'bg-[#fff7fb]' : 'bg-white'])>
+                                        <td class="px-6 py-3 font-semibold whitespace-nowrap text-sm">{{ $info->lrn ?? '—' }}</td>
+                                        <td class="px-6 py-3 whitespace-nowrap text-sm">{{ $info->full_name ?? 'Unknown' }}</td>
+                                        <td class="px-6 py-3 whitespace-nowrap text-sm">{{ $student->email }}</td>
+                                        <td class="px-6 py-3 whitespace-nowrap text-sm">{{ $info->mobile ?? '—' }}</td>
+                                        <td class="px-6 py-3 whitespace-nowrap">
+                                            <span class="{{ $student->deactivated ? 'bg-rose-50 text-rose-700' : 'bg-green-50 text-green-700' }} px-2 py-1 text-xs font-semibold rounded-full">
+                                                {{ $student->deactivated ? 'Inactive' : 'Active' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-6 text-center text-sm text-[#7c4c63]">
+                                            No student accounts found.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div id="student-meta" class="border-t border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">

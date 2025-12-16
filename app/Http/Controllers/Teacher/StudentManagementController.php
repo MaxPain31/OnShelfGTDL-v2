@@ -69,6 +69,8 @@ class StudentManagementController extends Controller
             'lrn' => ['required', 'string', 'max:12', 'unique:user_info,lrn'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'mobile' => ['nullable', 'string', 'max:20'],
+            'grade' => ['nullable', 'string', 'max:255'],
+            'section' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:active,inactive'],
         ]);
 
@@ -104,6 +106,8 @@ class StudentManagementController extends Controller
                     'extension_name' => $validated['extension_name'] ?? null,
                     'lrn' => $validated['lrn'],
                     'mobile' => $validated['mobile'] ?? null,
+                    'grade' => $validated['grade'] ?? null,
+                    'section' => $validated['section'] ?? null,
                 ]);
             });
 
@@ -158,6 +162,8 @@ class StudentManagementController extends Controller
                     'extension_name' => $student->userInfo->extension_name ?? '',
                     'lrn' => $student->userInfo->lrn ?? '',
                     'mobile' => $student->userInfo->mobile ?? '',
+                    'grade' => $student->userInfo->grade ?? '',
+                    'section' => $student->userInfo->section ?? '',
                 ] : [
                     'first_name' => '',
                     'middle_name' => '',
@@ -165,6 +171,8 @@ class StudentManagementController extends Controller
                     'extension_name' => '',
                     'lrn' => '',
                     'mobile' => '',
+                    'grade' => '',
+                    'section' => '',
                 ],
             ],
         ]);
@@ -183,6 +191,8 @@ class StudentManagementController extends Controller
             'lrn' => ['required', 'string', 'max:12', 'unique:user_info,lrn,' . $student->userInfo->id],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $student->id],
             'mobile' => ['nullable', 'string', 'max:20'],
+            'grade' => ['nullable', 'string', 'max:255'],
+            'section' => ['nullable', 'string', 'max:255'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'status' => ['required', 'in:active,inactive'],
         ]);
@@ -207,6 +217,8 @@ class StudentManagementController extends Controller
                     'last_name' => $validated['last_name'],
                     'extension_name' => $validated['extension_name'] ?? null,
                     'lrn' => $validated['lrn'],
+                    'grade' => $validated['grade'] ?? null,
+                    'section' => $validated['section'] ?? null,
                     'mobile' => $validated['mobile'] ?? null,
                 ]
             );

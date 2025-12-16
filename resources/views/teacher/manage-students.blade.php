@@ -260,8 +260,8 @@
                 </div>
             </div>
 
-            {{-- Mobile Card Layout --}}
-            <div class="md:hidden min-h-[570px] space-y-3 px-3 py-4" id="student-mobile-cards" x-ref="studentMobileCards">
+                {{-- Mobile & Tablet Card Layout --}}
+                <div class="lg:hidden min-h-[570px] space-y-3 px-3 py-4" id="student-mobile-cards" x-ref="studentMobileCards">
                 @forelse (($students ?? collect()) as $student)
                     @php
                         $info = $student->userInfo;
@@ -340,7 +340,7 @@
             </div>
 
             {{-- Desktop Table Layout --}}
-            <div class="hidden md:block overflow-x-auto min-h-[570px]">
+            <div class="hidden lg:block overflow-x-auto min-h-[570px]">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>
@@ -550,6 +550,30 @@
                                     </p>
                                 </div>
                                 <div class="space-y-1.5">
+                                    <label class="{{ $labelClass }}">Grade Level</label>
+                                    <select name="grade" class="{{ $inputClass }}">
+                                        <option value="">Select Grade Level</option>
+                                        <option value="Grade 7" @selected(old('grade') === 'Grade 7')>Grade 7</option>
+                                        <option value="Grade 8" @selected(old('grade') === 'Grade 8')>Grade 8</option>
+                                        <option value="Grade 9" @selected(old('grade') === 'Grade 9')>Grade 9</option>
+                                        <option value="Grade 10" @selected(old('grade') === 'Grade 10')>Grade 10</option>
+                                        <option value="Grade 11" @selected(old('grade') === 'Grade 11')>Grade 11</option>
+                                        <option value="Grade 12" @selected(old('grade') === 'Grade 12')>Grade 12</option>
+                                    </select>
+                                    <p class="text-xs text-[#a03464]/70">
+                                        @error('grade') {{ $message }} @enderror
+                                        <span x-show="formErrors.grade" x-text="formErrors.grade"></span>
+                                    </p>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="{{ $labelClass }}">Section</label>
+                                    <input type="text" name="section" value="{{ old('section') }}" class="{{ $inputClass }}" placeholder="e.g., Rizal, Bonifacio">
+                                    <p class="text-xs text-[#a03464]/70">
+                                        @error('section') {{ $message }} @enderror
+                                        <span x-show="formErrors.section" x-text="formErrors.section"></span>
+                                    </p>
+                                </div>
+                                <div class="space-y-1.5">
                                     <label class="{{ $labelClass }}">Status <span class="text-rose-500">*</span></label>
                                     <select name="status" class="{{ $inputClass }}">
                                         <option value="active" @selected(old('status') === 'active')>Active</option>
@@ -685,6 +709,28 @@
                                     <input type="text" name="mobile" x-model="editingStudent?.user_info?.mobile" class="{{ $inputClass }}" placeholder="+639XX-XXX-XXXX">
                                     <p class="text-xs text-[#a03464]/70">
                                         <span x-show="formErrors.mobile" x-text="formErrors.mobile"></span>
+                                    </p>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="{{ $labelClass }}">Grade Level</label>
+                                    <select name="grade" class="{{ $inputClass }}" x-model="editingStudent?.user_info?.grade">
+                                        <option value="">Select Grade Level</option>
+                                        <option value="Grade 7">Grade 7</option>
+                                        <option value="Grade 8">Grade 8</option>
+                                        <option value="Grade 9">Grade 9</option>
+                                        <option value="Grade 10">Grade 10</option>
+                                        <option value="Grade 11">Grade 11</option>
+                                        <option value="Grade 12">Grade 12</option>
+                                    </select>
+                                    <p class="text-xs text-[#a03464]/70">
+                                        <span x-show="formErrors.grade" x-text="formErrors.grade"></span>
+                                    </p>
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="{{ $labelClass }}">Section</label>
+                                    <input type="text" name="section" x-model="editingStudent?.user_info?.section" class="{{ $inputClass }}" placeholder="e.g., Rizal, Bonifacio">
+                                    <p class="text-xs text-[#a03464]/70">
+                                        <span x-show="formErrors.section" x-text="formErrors.section"></span>
                                     </p>
                                 </div>
                                 <div class="space-y-1.5">

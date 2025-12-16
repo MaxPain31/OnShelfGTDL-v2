@@ -11,6 +11,7 @@ use App\Http\Controllers\Administrator\RulesManagementController;
 use App\Http\Controllers\Administrator\TeacherManagementController;
 use App\Http\Controllers\Administrator\BookManagementController;
 use App\Http\Controllers\Administrator\EbookManagementController;
+use App\Http\Controllers\Administrator\AttendanceController;
 use App\Http\Controllers\Student\StudentBorrowedBooksController;
 use App\Http\Controllers\Student\StudentBooksController;
 use App\Http\Controllers\Student\StudentDashboardController;
@@ -47,6 +48,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/notifications', [NotificationController::class, 'showAll'])->name('notifications');
     Route::get('/dashboard', [AdminPanelController::class, 'dashboard'])->name('dashboard');
     Route::get('/manage-students', [AdminPanelController::class, 'manageStudents'])->name('manage-students');
+    Route::get('/manage-students/export/{format}', [AdminPanelController::class, 'exportStudents'])->name('manage-students.export');
     Route::get('/manage-books', [BookManagementController::class, 'index'])->name('manage-books');
     Route::post('/manage-books', [BookManagementController::class, 'store'])->name('manage-books.store');
     Route::post('/manage-books/{book}', [BookManagementController::class, 'update'])->name('manage-books.update');
@@ -64,6 +66,13 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/manage-reservations/{reservation}/void', [ReservationManagementController::class, 'void'])->name('manage-reservations.void');
 
     Route::get('/reports', [ReportsController::class, 'index'])->name('reports');
+    Route::get('/reports/export/{type}/{format}', [ReportsController::class, 'export'])->name('reports.export');
+
+    Route::get('/manage-attendance', [AttendanceController::class, 'index'])->name('manage-attendance');
+    Route::post('/manage-attendance', [AttendanceController::class, 'store'])->name('manage-attendance.store');
+    Route::put('/manage-attendance/{attendance}', [AttendanceController::class, 'update'])->name('manage-attendance.update');
+    Route::delete('/manage-attendance/{attendance}', [AttendanceController::class, 'destroy'])->name('manage-attendance.destroy');
+    Route::get('/manage-attendance/export/{format}', [AttendanceController::class, 'export'])->name('manage-attendance.export');
 
     Route::get('/manage-rules', [RulesManagementController::class, 'index'])->name('manage-rules');
     Route::post('/manage-rules', [RulesManagementController::class, 'store'])->name('manage-rules.store');
@@ -78,9 +87,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::put('/manage-teachers/{teacher}', 'update')->name('manage-teachers.update');
         Route::delete('/manage-teachers/{teacher}', 'destroy')->name('manage-teachers.destroy');
         Route::patch('/manage-teachers/{teacher}/status', 'toggleStatus')->name('manage-teachers.status');
+        Route::get('/manage-teachers/export/{format}', 'export')->name('manage-teachers.export');
     });
 
     Route::get('/profile', [AdminProfileController::class, 'show'])->name('profile');
+    Route::post('/profile/change-password', [AdminProfileController::class, 'changePassword'])->name('profile.change-password');
     Route::get('/profile/setup', [AdminAuthController::class, 'showProfileSetup'])->name('profile.setup');
     Route::post('/profile/setup', [AdminAuthController::class, 'saveProfileSetup'])->name('profile.setup.save');
 });

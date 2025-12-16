@@ -127,17 +127,17 @@
         x-effect="if ((showVerifyConfirmModal || showVoidConfirmModal) && window.lucide) { setTimeout(() => lucide.createIcons(), 100); }"
     >
         <div class="rounded-[24px] border border-[#f3cbe0] bg-white">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 border-b border-[#f3cbe0] px-3 sm:px-6 py-3 sm:py-4">
                 <h2 class="text-base sm:text-lg font-semibold text-[#4b2036]">All Reservations</h2>
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                <div class="flex flex-col md:flex-row items-stretch md:items-center gap-2 w-full md:w-auto">
                     {{-- Search --}}
-                    <form method="GET" action="{{ route('admin.manage-reservations') }}" class="relative w-full sm:w-auto">
+                    <form method="GET" action="{{ route('admin.manage-reservations') }}" class="relative w-full md:w-auto">
                         <input
                             type="search"
                             name="search"
                             x-model="searchQuery"
                             placeholder="Search by book, user, email..."
-                            class="custom-search w-full sm:w-auto rounded-full border border-[#f3cbe0] bg-[#fff7fb] pr-12 pl-4 py-2.5 sm:py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f]"
+                            class="custom-search w-full md:w-auto rounded-full border border-[#f3cbe0] bg-[#fff7fb] pr-12 pl-4 py-2.5 sm:py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#d96a9f]"
                         />
                         <button
                             type="submit"
@@ -167,8 +167,8 @@
                 </div>
             </div>
 
-            {{-- Mobile Card Layout --}}
-            <div class="md:hidden min-h-[570px] space-y-3 px-3 py-4">
+            {{-- Mobile & Tablet Card Layout --}}
+            <div class="lg:hidden min-h-[570px] space-y-3 px-3 py-4">
                 @forelse($reservations as $reservation)
                     @php
                         $user = $reservation->user;
@@ -264,7 +264,7 @@
             </div>
 
             {{-- Desktop Table Layout --}}
-            <div class="hidden md:block overflow-x-auto min-h-[570px]">
+            <div class="hidden lg:block overflow-x-auto min-h-[570px]">
                 <table class="min-w-full text-left text-sm text-[#4b2036]">
                     <thead class="bg-[#fde7f0] text-xs uppercase tracking-wider text-[#a03464]">
                         <tr>

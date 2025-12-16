@@ -11,11 +11,19 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
+use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Illuminate\Support\Collection;
 
 class TeacherManagementController extends Controller
 {
@@ -240,6 +248,99 @@ class TeacherManagementController extends Controller
         $user->loadMissing('role');
 
         abort_unless($user->role && $user->role->name === 'Teacher', 404);
+    }
+
+    public function export(Request $request, string $format)
+    {
+        $this->ensureAdminAccess();
+
+        $validFormats = ['pdf', 'excel'];
+        abort_if(!in_array($format, $validFormats), 404, 'Invalid export format.');
+
+        // Get the same filtered data as the index page
+        $teachersQuery = User::query()
+            ->with(['userInfo', 'role'])
+            ->whereHas('role', fn ($query) => $query->where('name', 'Teacher'));
+
+        if ($search = $request->input('search')) {
+            $teachersQuery->where(function ($query) use ($search) {
+                $query->where('email', 'like', "%{$search}%")
+                    ->orWhereHas('userInfo', function ($relation) use ($search) {
+                        $relation
+                            ->where('first_name', 'like', "%{$search}%")
+                            ->orWhere('last_name', 'like', "%{$search}%")
+                            ->orWhere('employee_number', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $teachers = $teachersQuery->orderByDesc('id')->get();
+        $searchQuery = $request->input('search');
+
+        if ($format === 'pdf') {
+            return $this->exportToPdf($teachers, $searchQuery);
+        } else {
+            return $this->exportToExcel($teachers, $searchQuery);
+        }
+    }
+
+    private function exportToPdf($teachers, ?string $searchQuery): Response
+    {
+        $html = view('admin.users.export-teachers-pdf', [
+            'teachers' => $teachers,
+            'searchQuery' => $searchQuery,
+            'generatedAt' => Carbon::now('Asia/Manila')->format('F d, Y h:i A'),
+        ])->render();
+
+        $pdf = Pdf::loadHTML($html);
+        $pdf->setPaper('a4', 'landscape');
+
+        $filename = 'teachers_list_' . Carbon::now('Asia/Manila')->format('Y-m-d') . '.pdf';
+
+        return $pdf->download($filename);
+    }
+
+    private function exportToExcel($teachers, ?string $searchQuery): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $data = $teachers->map(function ($teacher, $index) {
+            return [
+                '#' => $index + 1,
+                'name' => $teacher->userInfo->full_name ?? '—',
+                'email' => $teacher->email,
+                'employee_number' => $teacher->userInfo->employee_number ?? '—',
+                'advisory_class' => $teacher->userInfo->advisory_class ?? '—',
+                'mobile' => $teacher->userInfo->mobile ?? '—',
+                'status' => $teacher->deactivated ? 'Inactive' : 'Active',
+            ];
+        })->toArray();
+
+        $export = new class($data) implements FromCollection, WithHeadings, WithMapping {
+            private $data;
+
+            public function __construct(array $data)
+            {
+                $this->data = $data;
+            }
+
+            public function collection(): Collection
+            {
+                return collect($this->data);
+            }
+
+            public function headings(): array
+            {
+                return ['#', 'Name', 'Email', 'Employee Number', 'Advisory Class', 'Mobile', 'Status'];
+            }
+
+            public function map($row): array
+            {
+                return array_values($row);
+            }
+        };
+
+        $filename = 'teachers_list_' . Carbon::now('Asia/Manila')->format('Y-m-d') . '.xlsx';
+
+        return Excel::download($export, $filename);
     }
 
     private function ensureAdminAccess(): void

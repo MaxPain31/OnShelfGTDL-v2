@@ -11,6 +11,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Illuminate\Support\Collection;
 
 class AdminPanelController extends Controller
 {
@@ -200,6 +208,100 @@ class AdminPanelController extends Controller
             'userType' => 'students',
             'students' => $students,
         ]);
+    }
+
+    public function exportStudents(Request $request, string $format)
+    {
+        $this->ensureAdmin();
+
+        $validFormats = ['pdf', 'excel'];
+        abort_if(!in_array($format, $validFormats), 404, 'Invalid export format.');
+
+        // Get the same filtered data as the manageStudents page
+        $studentsQuery = User::query()
+            ->with(['userInfo', 'role'])
+            ->whereHas('role', fn ($query) => $query->where('name', 'Student'));
+
+        if ($search = $request->input('search')) {
+            $studentsQuery->where(function ($query) use ($search) {
+                $query->where('email', 'like', "%{$search}%")
+                    ->orWhereHas('userInfo', function ($relation) use ($search) {
+                        $relation
+                            ->where('first_name', 'like', "%{$search}%")
+                            ->orWhere('last_name', 'like', "%{$search}%")
+                            ->orWhere('lrn', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $students = $studentsQuery->orderByDesc('id')->get();
+        $searchQuery = $request->input('search');
+
+        if ($format === 'pdf') {
+            return $this->exportStudentsToPdf($students, $searchQuery);
+        } else {
+            return $this->exportStudentsToExcel($students, $searchQuery);
+        }
+    }
+
+    private function exportStudentsToPdf($students, ?string $searchQuery): Response
+    {
+        $html = view('admin.users.export-students-pdf', [
+            'students' => $students,
+            'searchQuery' => $searchQuery,
+            'generatedAt' => Carbon::now('Asia/Manila')->format('F d, Y h:i A'),
+        ])->render();
+
+        $pdf = Pdf::loadHTML($html);
+        $pdf->setPaper('a4', 'landscape');
+
+        $filename = 'students_list_' . Carbon::now('Asia/Manila')->format('Y-m-d') . '.pdf';
+
+        return $pdf->download($filename);
+    }
+
+    private function exportStudentsToExcel($students, ?string $searchQuery): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $data = $students->map(function ($student, $index) {
+            return [
+                '#' => $index + 1,
+                'name' => $student->userInfo->full_name ?? '—',
+                'email' => $student->email,
+                'lrn' => $student->userInfo->lrn ?? '—',
+                'grade_level' => $student->userInfo->grade ?? '—',
+                'section' => $student->userInfo->section ?? '—',
+                'mobile' => $student->userInfo->mobile ?? '—',
+                'status' => $student->deactivated ? 'Inactive' : 'Active',
+            ];
+        })->toArray();
+
+        $export = new class($data) implements FromCollection, WithHeadings, WithMapping {
+            private $data;
+
+            public function __construct(array $data)
+            {
+                $this->data = $data;
+            }
+
+            public function collection(): Collection
+            {
+                return collect($this->data);
+            }
+
+            public function headings(): array
+            {
+                return ['#', 'Name', 'Email', 'LRN', 'Grade Level', 'Section', 'Mobile', 'Status'];
+            }
+
+            public function map($row): array
+            {
+                return array_values($row);
+            }
+        };
+
+        $filename = 'students_list_' . Carbon::now('Asia/Manila')->format('Y-m-d') . '.xlsx';
+
+        return Excel::download($export, $filename);
     }
 
     public function manageTeachers()
