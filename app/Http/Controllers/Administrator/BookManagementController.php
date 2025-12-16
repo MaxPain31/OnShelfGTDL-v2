@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Illuminate\Support\Collection;
+use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookManagementController extends Controller
 {
@@ -45,7 +53,7 @@ class BookManagementController extends Controller
             $editingBook = Book::find($request->integer('edit'));
         }
 
-        $books = $booksQuery->orderByDesc('id')->paginate(9)->withQueryString();
+        $books = $booksQuery->orderByDesc('id')->paginate(12)->withQueryString();
 
         // Get distinct categories for filter dropdown
         $categories = Book::distinct()->whereNotNull('category')->orderBy('category')->pluck('category');
@@ -136,6 +144,131 @@ class BookManagementController extends Controller
         }
 
         return redirect()->route('admin.manage-books')->with('status', 'Book has been deleted.');
+    }
+
+    public function export(Request $request, string $format): Response
+    {
+        $this->ensureAdminAccess();
+
+        $validFormats = ['pdf', 'excel'];
+        abort_if(!in_array($format, $validFormats), 404, 'Invalid export format.');
+
+        $booksQuery = Book::query();
+
+        if ($search = $request->input('search')) {
+            $booksQuery->where(function ($query) use ($search) {
+                $query->where('isbn', 'like', "%{$search}%")
+                    ->orWhere('book_name', 'like', "%{$search}%")
+                    ->orWhere('authors_name', 'like', "%{$search}%")
+                    ->orWhere('category', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('category')) {
+            $booksQuery->where('category', $request->input('category'));
+        }
+
+        $books = $booksQuery->orderByDesc('id')->get();
+        $searchQuery = $request->input('search');
+        $categoryFilter = $request->input('category');
+
+        if ($format === 'pdf') {
+            return $this->exportToPdf($books, $searchQuery, $categoryFilter);
+        } else {
+            return $this->exportToExcel($books, $searchQuery, $categoryFilter);
+        }
+    }
+
+    private function exportToPdf($books, ?string $searchQuery, ?string $categoryFilter): Response
+    {
+        $html = view('admin.books.export-pdf', [
+            'books' => $books,
+            'searchQuery' => $searchQuery,
+            'categoryFilter' => $categoryFilter,
+            'generatedAt' => Carbon::now('Asia/Manila')->format('F d, Y h:i A'),
+        ])->render();
+
+        $pdf = Pdf::loadHTML($html);
+        $pdf->setPaper('a4', 'landscape');
+
+        $filename = 'books_list_' . Carbon::now('Asia/Manila')->format('Y-m-d') . '.pdf';
+
+        return $pdf->download($filename);
+    }
+
+    private function exportToExcel($books, ?string $searchQuery, ?string $categoryFilter): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $export = new class($books, $searchQuery, $categoryFilter) implements FromCollection, WithHeadings, WithMapping {
+            private $books;
+            private $searchQuery;
+            private $categoryFilter;
+
+            public function __construct($books, ?string $searchQuery, ?string $categoryFilter)
+            {
+                $this->books = $books;
+                $this->searchQuery = $searchQuery;
+                $this->categoryFilter = $categoryFilter;
+            }
+
+            public function collection(): Collection
+            {
+                return $this->books->map(function ($book, $index) {
+                    return [
+                        '#' => $index + 1,
+                        'ISBN' => $book->isbn ?? '—',
+                        'Book Name' => $book->book_name ?? '—',
+                        'Authors' => $book->authors_name ?? '—',
+                        'Category' => $book->category ?? '—',
+                        'Book Shelf' => $book->book_shelf ?? '—',
+                        'Copyright' => $book->copyright ?? '—',
+                        'Stock Quantity' => $book->stock_quantity ?? 0,
+                        'Publication' => $book->publication_name ?? '—',
+                    ];
+                });
+            }
+
+            public function headings(): array
+            {
+                $headings = [
+                    '#',
+                    'ISBN',
+                    'Book Name',
+                    'Authors',
+                    'Category',
+                    'Book Shelf',
+                    'Copyright',
+                    'Stock Quantity',
+                    'Publication',
+                ];
+
+                $info = [
+                    ['Books List'],
+                ];
+
+                if ($this->categoryFilter) {
+                    $info[] = ['Category: ' . $this->categoryFilter];
+                }
+
+                if ($this->searchQuery) {
+                    $info[] = ['Search: ' . $this->searchQuery];
+                }
+
+                $info[] = ['Total Records: ' . $this->books->count()];
+                $info[] = ['Generated: ' . Carbon::now('Asia/Manila')->format('F d, Y h:i A')];
+                $info[] = []; // Empty row for spacing
+
+                return array_merge($info, [$headings]);
+            }
+
+            public function map($row): array
+            {
+                return array_values($row);
+            }
+        };
+
+        $filename = 'books_list_' . Carbon::now('Asia/Manila')->format('Y-m-d') . '.xlsx';
+
+        return Excel::download($export, $filename);
     }
 }
 

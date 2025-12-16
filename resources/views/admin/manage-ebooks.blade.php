@@ -191,6 +191,24 @@
                         </button>
                     </div>
                 </form>
+                <div class="flex gap-2">
+                    <a
+                        href="{{ route('admin.manage-ebooks.export', ['format' => 'pdf', 'search' => request('search'), 'category' => request('category')]) }}"
+                        class="inline-flex items-center justify-center gap-2 rounded-full bg-red-600 px-4 py-2.5 sm:py-2 text-sm font-semibold text-white shadow-md hover:bg-red-700 w-full md:w-auto"
+                        title="Export to PDF"
+                    >
+                        <i data-lucide="file-text" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        <span>PDF</span>
+                    </a>
+                    <a
+                        href="{{ route('admin.manage-ebooks.export', ['format' => 'excel', 'search' => request('search'), 'category' => request('category')]) }}"
+                        class="inline-flex items-center justify-center gap-2 rounded-full bg-green-600 px-4 py-2.5 sm:py-2 text-sm font-semibold text-white shadow-md hover:bg-green-700 w-full md:w-auto"
+                        title="Export to Excel"
+                    >
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        <span>Excel</span>
+                    </a>
+                </div>
                 <button
                     type="button"
                     @click="formErrors = {}; showAddModal = true"

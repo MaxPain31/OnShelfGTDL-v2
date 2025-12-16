@@ -53,11 +53,13 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/manage-books', [BookManagementController::class, 'store'])->name('manage-books.store');
     Route::post('/manage-books/{book}', [BookManagementController::class, 'update'])->name('manage-books.update');
     Route::delete('/manage-books/{book}', [BookManagementController::class, 'destroy'])->name('manage-books.destroy');
+    Route::get('/manage-books/export/{format}', [BookManagementController::class, 'export'])->name('manage-books.export');
 
     Route::get('/manage-ebooks', [EbookManagementController::class, 'index'])->name('manage-ebooks');
     Route::post('/manage-ebooks', [EbookManagementController::class, 'store'])->name('manage-ebooks.store');
     Route::post('/manage-ebooks/{ebook}', [EbookManagementController::class, 'update'])->name('manage-ebooks.update');
     Route::delete('/manage-ebooks/{ebook}', [EbookManagementController::class, 'destroy'])->name('manage-ebooks.destroy');
+    Route::get('/manage-ebooks/export/{format}', [EbookManagementController::class, 'export'])->name('manage-ebooks.export');
 
     Route::get('/manage-borrows', [BorrowManagementController::class, 'index'])->name('manage-borrows');
     Route::post('/manage-borrows/{borrow}/return', [BorrowManagementController::class, 'return'])->name('manage-borrows.return');
