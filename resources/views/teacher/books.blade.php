@@ -186,19 +186,6 @@
             reserveBook() {
                 if (!this.selectedBook) return;
 
-                // Check if user can reserve (has 5+ returned books) - only for students
-                if (this.selectedBook.can_reserve === false) {
-                    const count = this.selectedBook.returned_books_count || 0;
-                    this.reserveMessage = `You need to successfully borrow and return at least 5 books before you can reserve books. You currently have ${count} returned book(s).`;
-                    this.reserveMessageType = "error";
-                    this.showReserveModal = true;
-                    this.$nextTick(() => {
-                        if (window.lucide) {
-                            lucide.createIcons();
-                        }
-                    });
-                    return;
-                }
 
                 if (this.selectedBook.stock_quantity === 0) {
                     this.reserveMessage = "This book is not available for reservation.";
@@ -239,6 +226,7 @@
                     return;
                 }
 
+                // Calculate due date
                 this.calculateDueDate();
 
                 if (!this.dueDate) {
@@ -736,8 +724,7 @@
                                         <div class="grid grid-cols-2 gap-3">
                                             <button
                                                 @click="reserveBook()"
-                                                :disabled="selectedBook && (selectedBook.stock_quantity === 0 || selectedBook.can_reserve === false)"
-                                                :title="selectedBook && selectedBook.can_reserve === false ? 'You need 5 successful borrows and returns to reserve books' : ''"
+                                                :disabled="selectedBook && selectedBook.stock_quantity === 0"
                                                 class="flex items-center justify-center gap-2 rounded-[12px] border-2 border-[#a03464] bg-white px-4 py-3 text-sm font-semibold text-[#a03464] hover:bg-[#fff7fb] transition disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 <i data-lucide="bookmark" class="w-4 h-4"></i>
@@ -757,7 +744,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
 
         {{-- Borrow Confirmation Modal --}}

@@ -66,14 +66,14 @@ class TeacherBooksController extends BaseTeacherController
     public function show(Book $book): JsonResponse
     {
         $this->ensureTeacher();
-        
+
         $user = Auth::user();
-        
+
         // Check if user has already viewed this book
         $hasViewed = BookView::where('book_id', $book->id)
             ->where('user_id', $user->id)
             ->exists();
-        
+
         // Only increment view count if user hasn't viewed this book before
         if (!$hasViewed) {
             // Create a view record
@@ -81,25 +81,25 @@ class TeacherBooksController extends BaseTeacherController
                 'book_id' => $book->id,
                 'user_id' => $user->id,
             ]);
-            
+
             // Increment view count
             $book->increment('view_count');
         }
-        
+
         // Reload to get updated view count
         $book->refresh();
-        
+
         // Check if user has favorited this book
         $isFavorited = BookFavorite::where('book_id', $book->id)
             ->where('user_id', $user->id)
             ->exists();
-        
+
         // For teachers, they can always reserve (no 5-book restriction)
         $returnedBooksCount = BookBorrow::where('user_id', $user->id)
             ->where('status', 'returned')
             ->count();
         $canReserve = true; // Teachers don't have the 5-book restriction
-        
+
         return response()->json([
             'success' => true,
             'book' => [
@@ -126,14 +126,14 @@ class TeacherBooksController extends BaseTeacherController
     public function toggleFavorite(Book $book): JsonResponse
     {
         $this->ensureTeacher();
-        
+
         $user = Auth::user();
-        
+
         // Check if user has already favorited this book
         $favorite = BookFavorite::where('book_id', $book->id)
             ->where('user_id', $user->id)
             ->first();
-        
+
         if ($favorite) {
             // Unfavorite: Remove favorite and decrement count
             $favorite->delete();
@@ -148,9 +148,9 @@ class TeacherBooksController extends BaseTeacherController
             $book->increment('favorite_count');
             $isFavorited = true;
         }
-        
+
         $book->refresh();
-        
+
         return response()->json([
             'success' => true,
             'is_favorited' => $isFavorited,
@@ -161,9 +161,9 @@ class TeacherBooksController extends BaseTeacherController
     public function borrow(Book $book): JsonResponse
     {
         $this->ensureTeacher();
-        
+
         $user = Auth::user();
-        
+
         // Check if user has overdue books
         $overdueCount = $user->overdueBorrows()->count();
         if ($overdueCount > 0) {
@@ -172,7 +172,7 @@ class TeacherBooksController extends BaseTeacherController
                 'message' => "You cannot borrow books because you have {$overdueCount} overdue book(s). Please return them first.",
             ], 400);
         }
-        
+
         // Check if user already has 3 active borrows
         $activeBorrows = $user->activeBorrows()->count();
         if ($activeBorrows >= 3) {
@@ -181,20 +181,20 @@ class TeacherBooksController extends BaseTeacherController
                 'message' => 'You have reached the maximum limit of 3 active borrows. Please return a book first.',
             ], 400);
         }
-        
+
         // Check if book is already borrowed by this user (not returned)
         $existingBorrow = BookBorrow::where('book_id', $book->id)
             ->where('user_id', $user->id)
             ->whereIn('status', ['borrowed', 'overdue'])
             ->first();
-        
+
         if ($existingBorrow) {
             return response()->json([
                 'success' => false,
                 'message' => 'You have already borrowed this book. Please return it first before borrowing again.',
             ], 400);
         }
-        
+
         // Check if book has available stock
         if ($book->stock_quantity <= 0) {
             return response()->json([
@@ -202,7 +202,7 @@ class TeacherBooksController extends BaseTeacherController
                 'message' => 'This book is currently not available. All copies are borrowed.',
             ], 400);
         }
-        
+
         try {
             $borrow = null;
             DB::transaction(function () use ($book, $user, &$borrow) {
@@ -216,7 +216,7 @@ class TeacherBooksController extends BaseTeacherController
                         $businessDays++;
                     }
                 }
-                
+
                 // Create borrow record
                 $borrow = BookBorrow::create([
                     'book_id' => $book->id,
@@ -225,13 +225,13 @@ class TeacherBooksController extends BaseTeacherController
                     'due_date' => $dueDate,
                     'status' => 'borrowed',
                 ]);
-                
+
                 // Decrease stock quantity
                 $book->decrement('stock_quantity');
-                
+
                 // Get user name
                 $userName = $user->userInfo->full_name ?? $user->name ?? $user->email;
-                
+
                 // Create notification for user
                 Notification::create([
                     'user_id' => $user->id,
@@ -257,7 +257,7 @@ class TeacherBooksController extends BaseTeacherController
                     $dueDate->format('M d, Y'),
                     $bookImage
                 ));
-                
+
                 // Notify all admins
                 $adminRole = Role::where('name', 'Administrator')->first();
                 if ($adminRole) {
@@ -282,7 +282,7 @@ class TeacherBooksController extends BaseTeacherController
                     }
                 }
             });
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Book borrowed successfully! Please return it within 3 days.',
@@ -298,9 +298,9 @@ class TeacherBooksController extends BaseTeacherController
     public function reserve(Request $request, Book $book): JsonResponse
     {
         $this->ensureTeacher();
-        
+
         $user = Auth::user();
-        
+
         // Validate request
         $validated = $request->validate([
             'reserve_date' => 'required|date|after_or_equal:today',
@@ -313,46 +313,39 @@ class TeacherBooksController extends BaseTeacherController
             'due_date.date' => 'Invalid due date format.',
             'due_date.after' => 'Due date must be after the reserve date.',
         ]);
-        
+
         $reserveDate = Carbon::parse($validated['reserve_date']);
         $dueDate = Carbon::parse($validated['due_date']);
-        
-        // Check if user already has 3 active reservations
-        $activeReservations = $user->activeReservations()->count();
-        if ($activeReservations >= 3) {
-            return response()->json([
-                'success' => false,
-                'message' => 'You have reached the maximum limit of 3 active reservations. Please claim or cancel a reservation first.',
-            ], 400);
-        }
-        
+
+        // Teachers don't have a reservation limit - removed the 3-reservation check
+
         // Check if book is already reserved by this user (pending and not expired)
         $existingReservation = BookReservation::where('book_id', $book->id)
             ->where('user_id', $user->id)
             ->where('status', 'pending')
             ->where('claim_deadline', '>=', now()->startOfDay())
             ->first();
-        
+
         if ($existingReservation) {
             return response()->json([
                 'success' => false,
                 'message' => 'You have already reserved this book. Please claim it first before reserving again.',
             ], 400);
         }
-        
+
         // Check if book is already borrowed by this user (not returned)
         $existingBorrow = BookBorrow::where('book_id', $book->id)
             ->where('user_id', $user->id)
             ->whereIn('status', ['borrowed', 'overdue'])
             ->first();
-        
+
         if ($existingBorrow) {
             return response()->json([
                 'success' => false,
                 'message' => 'You have already borrowed this book. Please return it first before reserving.',
             ], 400);
         }
-        
+
         // Check if book has available stock
         if ($book->stock_quantity <= 0) {
             return response()->json([
@@ -360,13 +353,13 @@ class TeacherBooksController extends BaseTeacherController
                 'message' => 'This book is currently not available. All copies are borrowed.',
             ], 400);
         }
-        
+
         try {
             $reservation = null;
             DB::transaction(function () use ($book, $user, $reserveDate, $dueDate, &$reservation) {
                 // Calculate claim deadline (3 days from now)
                 $claimDeadline = Carbon::today()->addDays(3);
-                
+
                 // Create reservation record
                 $reservation = BookReservation::create([
                     'book_id' => $book->id,
@@ -376,10 +369,10 @@ class TeacherBooksController extends BaseTeacherController
                     'claim_deadline' => $claimDeadline,
                     'status' => 'pending',
                 ]);
-                
+
                 // Get user name
                 $userName = $user->userInfo->full_name ?? $user->name ?? $user->email;
-                
+
                 // Create notification for user
                 Notification::create([
                     'user_id' => $user->id,
@@ -408,7 +401,7 @@ class TeacherBooksController extends BaseTeacherController
                     $claimDeadline->format('M d, Y'),
                     $bookImage
                 ));
-                
+
                 // Notify all admins
                 $adminRole = Role::where('name', 'Administrator')->first();
                 if ($adminRole) {
@@ -435,7 +428,7 @@ class TeacherBooksController extends BaseTeacherController
                     }
                 }
             });
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Book reserved successfully! You have 3 days to claim it.',
