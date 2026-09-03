@@ -20,6 +20,7 @@ class BookReservation extends Model
         'claimed_at',
     ];
 
+
     protected $casts = [
         'reserve_date' => 'date',
         'due_date' => 'date',
